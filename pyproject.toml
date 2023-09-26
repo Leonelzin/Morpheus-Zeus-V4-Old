@@ -6,7 +6,7 @@ authors = ["Pedro Thaines <pedro.thaines@intelbras.com.br>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.11"
 robotframework = "^6.1.1"
 robotframework-browser = "^17.5.1"
 robotframework-requests = "^0.9.5"
