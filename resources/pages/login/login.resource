@@ -1,3 +1,8 @@
+*** Settings ***
+Library     Browser
+Resource    ../../common.resource
+
+
 *** Variables ***
 ${LOGIN_PAGE_TITLE}                                     Intelbras
 
@@ -25,3 +30,53 @@ ${LOGIN_PAGE_LANGUAGE_SELECT_OPTION_ES}                 xpath=//*[@id="root"]/di
 ${LOGIN_PAGE_ERROR_MSG_POPUP}                           xpath=//*[@id="root"]/div[1]/div/div/div[1]/div
 ${LOGIN_PAGE_ERROR_MSG_POPUP_CLOSE_BUTTON}              xpath=//*[@id="root"]/div[1]/div/div/div[2]
 ${LOGIN_PAGE_ERROR_MSG_POPUP_INCORRECT_CREDENTIALS}     O usuário e/ou senha está incorreto.
+
+
+*** Keywords ***
+Advertising banner should be displayed
+    Wait until HTML element screenshot matches reference image
+    ...    ${LOGIN_PAGE_BANNER}
+    ...    ${ITB_OFFICIAL_LOGIN_BANNER_IMG_PATH}
+
+Login form should be in Portuguese
+    [Tags]    robot:continue-on-failure
+    Get text    ${LOGIN_PAGE_FORM_TITLE}    ==    Entrar
+    Get text    ${LOGIN_PAGE_LANGUAGE_SELECT_TITLE}    ==    Idioma
+    Get text    ${LOGIN_PAGE_LANGUAGE_SELECT}    ==    Português
+
+    Wait until HTML element screenshot matches reference image
+    ...    ${LOGIN_PAGE_LANGUAGE_SELECT_COUNTRY_FLAG_IMG}
+    ...    ${ITB_OFFICIAL_LOGIN_LANGUAGE_BRAZIL_FLAG_IMG_PATH}
+
+    Get text    ${LOGIN_PAGE_USERNAME_INPUT_TITLE}    ==    Usuário
+    Get attribute
+    ...    ${LOGIN_PAGE_USERNAME_INPUT}
+    ...    placeholder    ==    Nome do usuário
+
+    Get text    ${LOGIN_PAGE_PASSWORD_INPUT_TITLE}    ==    Senha
+    Get attribute
+    ...    ${LOGIN_PAGE_PASSWORD_INPUT}
+    ...    placeholder    ==    Digite sua senha
+
+Username input should be "${username}"
+    Get text    ${LOGIN_PAGE_USERNAME_INPUT}    ==    ${username}
+
+Password input should be "${password}"
+    Get text    ${LOGIN_PAGE_PASSWORD_INPUT}    ==    ${password}
+
+Enter username "${username}"
+    Type text    ${LOGIN_PAGE_USERNAME_INPUT}    ${username}
+
+Enter password "${password}"
+    Type secret    ${LOGIN_PAGE_PASSWORD_INPUT}    $password
+
+Click login button
+    Click    ${LOGIN_PAGE_LOGIN_BUTTON}
+
+First access webpage should be displayed
+    Wait until network is idle
+    Get url    *=    /login_first_access
+
+Dashboard webpage should be displayed
+    Wait until network is idle
+    Get url    *=    /dashboard
