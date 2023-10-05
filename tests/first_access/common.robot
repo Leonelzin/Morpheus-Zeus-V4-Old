@@ -2,11 +2,10 @@
 Library             Browser
 Resource            ../../resources/common.resource
 Resource            ../../resources/fiber.resource
-Resource            ../../resources/pages/login/login.resource
 Resource            ../../resources/pages/first_access/first_access.resource
 
 Suite Setup         Run keywords
-...                     Reset DUT settings to factory default if first access password has been changed
+...                     fiber.Reset DUT settings to factory default if first access password has been changed
 ...                     AND    Setup browser    url=${DUT_LOGIN_WEBPAGE_URL}
 ...                     AND    Go to DUT login webpage
 ...                     AND    Login with first access credentials
@@ -40,7 +39,12 @@ Privacy policy and terms of use are not accepted by default
     Privacy policy and terms of use should not be accepted
 
 Dashboard is displayed after first access login
-    [Tags]    robot:skip
+    [Documentation]
+    ...    This test should be the last to run in this suite.
+    ...    Reason: if successful, this test case will change the default
+    ...    password and then other tests that must navigate to the first access
+    ...    login webpage will fail since the user will be automatically
+    ...    redirected to dashboard webpage after logging in.
     Enter password "${DUT_MGMT_PASSWORD}"
     Enter password confirmation "${DUT_MGMT_PASSWORD}"
     Accept privacy policy and terms of use

@@ -1,7 +1,6 @@
 *** Settings ***
 Library     Browser
 Resource    ../../common.resource
-Resource    ../login/login.resource
 
 
 *** Variables ***
@@ -49,6 +48,10 @@ ${FIRST_ACCESS_PAGE_LOGIN_BUTTON}                               xpath=//*[@id="s
 
 ${FIRST_ACCESS_PAGE_ITB_COPYRIGHT_FOOTER}                       xpath=//*[@id="root"]/div[2]/div[2]/div/div[2]
 
+${LOGIN_PAGE_USERNAME_INPUT}                                    id=login
+${LOGIN_PAGE_PASSWORD_INPUT}                                    id=password
+${LOGIN_PAGE_LOGIN_BUTTON}                                      id=submitBtn
+
 
 *** Keywords ***
 Login with first access credentials
@@ -63,7 +66,7 @@ Wait until first access webpage is displayed
 
 Advertising banner should be displayed
     Wait until HTML element screenshot matches reference image
-    ...    ${LOGIN_PAGE_BANNER}
+    ...    ${FIRST_ACCESS_PAGE_BANNER}
     ...    ${ITB_OFFICIAL_FIRST_ACCESS_BANNER_IMG_PATH}
 
 Open language selection dropdown menu

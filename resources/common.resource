@@ -24,9 +24,9 @@ ${SIDEMENU_DASHBOARD}                   xpath=//*[@id="sidebar-options-menu"]/di
 
 
 *** Keywords ***
-##########################
-#    Browser Handling    #
-##########################
+#################
+#    Browser    #
+#################
 Setup browser
     [Arguments]    ${url}=${none}
     ${GLOBAL_DEBUG_BROWSER}    Convert to boolean    ${GLOBAL_DEBUG_BROWSER}
@@ -40,13 +40,9 @@ Clear browser storages
     Localstorage clear
     Sessionstorage clear
 
-Go to DUT login webpage
-    Go to    ${DUT_LOGIN_WEBPAGE_URL}
-    Wait until network is idle
-
-########################
-#    Image Handling    #
-########################
+################
+#    Images    #
+################
 
 Take HTML element screenshot and check if it matches reference image
     [Arguments]    ${elem_selector}    ${ref_img_path}
@@ -74,3 +70,11 @@ Text should contain
     FOR    ${string}    IN    @{strings}
         Should contain    ${text}    ${string}
     END
+
+###############
+#    Login    #
+###############
+
+Go to DUT login webpage
+    Go to    ${DUT_LOGIN_WEBPAGE_URL}
+    Wait until network is idle
