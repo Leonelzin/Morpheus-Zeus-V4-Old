@@ -1,3 +1,7 @@
 .python-version
 .vscode/
 __pycache__/
+*.xml
+*.html
+*.log
+*.txt
