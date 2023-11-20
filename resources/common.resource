@@ -88,7 +88,25 @@ Go to DUT login webpage
     Go to    ${DUT_LOGIN_WEBPAGE_URL}
     Wait until network is idle
 
-Login to DUT
+Login to DUT (Portuguese)
+    AND Go to DUT login webpage
+    AND Open language selection dropdown menu
+    AND Select Portuguese language
+    AND Enter username "${DUT_MGMT_USER}"
+    AND Enter password "${DUT_MGMT_PASSWORD}"
+    AND Click login button
+    AND Dashboard webpage should be displayed
+
+Login to DUT (English)
+    AND Go to DUT login webpage
+    AND Open language selection dropdown menu
+    AND Select English language
+    AND Enter username "${DUT_MGMT_USER}"
+    AND Enter password "${DUT_MGMT_PASSWORD}"
+    AND Click login button
+    AND Dashboard webpage should be displayed
+
+Login to DUT (Spanish)
     AND Go to DUT login webpage
     AND Open language selection dropdown menu
     AND Select Spanish language

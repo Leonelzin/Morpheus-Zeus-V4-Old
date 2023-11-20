@@ -87,5 +87,11 @@ Open language selection dropdown menu
         Click    ${LOGIN_PAGE_LANGUAGE_SELECT} 
     END
 
+Select English language
+    Click    ${LOGIN_PAGE_LANGUAGE_SELECT_OPTION_EN}
+
+Select Portuguese language
+    Click    ${LOGIN_PAGE_LANGUAGE_SELECT_OPTION_PT}
+
 Select Spanish language
     Click    ${LOGIN_PAGE_LANGUAGE_SELECT_OPTION_ES}

@@ -7,17 +7,15 @@ Resource            ../../../resources/pages/services/watchdog.resource
 Suite Setup         Run keywords
 ...                     Setup browser    url=${DUT_LOGIN_WEBPAGE_URL}
 ...                     AND    Set Viewport Size    1000    950
-...                     AND    Login To DUT
+...                     AND    Login to DUT (English)
 ...                     AND    Go to DUT watchdog webpage
-...                     AND    Select English language on the watchdog screen
 Test Teardown       Run keyword if test failed
 ...                     Run keywords
 ...                     Clear browser storages
-...                     Login To DUT
+...                     Login to DUT (English)
 ...                     Go to DUT watchdog webpage
-...                     Select English language on the watchdog screen
 
-Force Tags          lang-en   watchdog    smoke    #header
+Force Tags          lang-en   watchdog    smoke    header
 
 
 *** Test Cases ***

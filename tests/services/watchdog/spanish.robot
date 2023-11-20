@@ -7,15 +7,13 @@ Resource            ../../../resources/pages/services/watchdog.resource
 Suite Setup         Run keywords
 ...                     Setup browser    url=${DUT_LOGIN_WEBPAGE_URL}
 ...                     AND    Set Viewport Size    1000    950
-...                     AND    Login To DUT
+...                     AND    Login to DUT (Spanish)
 ...                     AND    Go to DUT watchdog webpage
-#...                     AND    Select Spanish language on the watchdog screen
 Test Teardown       Run keyword if test failed
 ...                     Run keywords
 ...                     Clear browser storages
-...                     Login To DUT
+...                     Login to DUT (Spanish)
 ...                     Go to DUT watchdog webpage
-#...                     Select Spanish language on the watchdog screen
 
 Force Tags          lang-es   watchdog    smoke    header
 
@@ -29,7 +27,7 @@ Watchdog page title is visible
     Get Text    
     ...    ${WATCHDOG_PAGE_SUBTITLE}    
     ...    ==    
-    ...    Temporizador que activa una verificación del sistema en segundos debido a una supuesta condición de errob.\n
+    ...    Temporizador que activa una verificación del sistema en segundos debido a una supuesta condición de error.\n
  
 Validating Toggle on the Watchdog page
     Watchdog toggle should not be enable
