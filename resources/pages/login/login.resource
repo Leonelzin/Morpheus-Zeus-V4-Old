@@ -80,3 +80,12 @@ First access webpage should be displayed
 Dashboard webpage should be displayed
     Wait until network is idle
     Get url    *=    /dashboard
+
+Open language selection dropdown menu
+    ${elem_states}    Get element states    ${LOGIN_PAGE_LANGUAGE_SELECT_OPTIONS_DROPDOWN}
+    IF    "hidden" in ${elem_states}
+        Click    ${LOGIN_PAGE_LANGUAGE_SELECT} 
+    END
+
+Select Spanish language
+    Click    ${LOGIN_PAGE_LANGUAGE_SELECT_OPTION_ES}
