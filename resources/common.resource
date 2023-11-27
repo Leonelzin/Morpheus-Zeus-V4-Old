@@ -21,6 +21,7 @@ ${DUT_MGMT_FIRST_ACCESS_PASSWORD}       M9w3#EH3
 # DUT PAGES
 ${DUT_LOGIN_WEBPAGE_URL}                ${DUT_MGMT_URL}/login
 ${DUT_WATCHDOG_WEBPAGE_URL}             ${DUT_MGMT_URL}/watchdog
+${DUT_NTP_WEBPAGE_URL}                  ${DUT_MGMT_URL}/ntp
 
 # SIDEBAR MENU
 ${SIDEMENU}                             id=sidebar_menu
@@ -31,6 +32,7 @@ ${SIDEMENU_SERVICES}                    xpath=//*[@id="sidebar-options-menu"]/di
 
 # SIDEBAR SERVICE SUBMENU
 ${SIDESUB_MENU_WATCHDOG}                xpath=//*[@id="sidebar-options-menu"]/div[5]/ul/div[4]
+${SIDESUB_MENU_NTP}                     xpath=//*[@id="sidebar-options-menu"]/div[5]/ul/div[3]
 
 *** Keywords ***
 #################
@@ -116,8 +118,15 @@ Login to DUT (Spanish)
     AND Dashboard webpage should be displayed
     
 ###############
-#    Watchdog    #
+#   Watchdog  #
 ###############
 
 Go to DUT watchdog webpage
     Go to    ${DUT_WATCHDOG_WEBPAGE_URL}
+
+###############
+#     NTP     #
+###############
+
+Go to DUT ntp webpage
+    Go to    ${DUT_NTP_WEBPAGE_URL}
