@@ -1,9 +1,9 @@
 *** Settings ***
 Library     Browser
 Library     ../libraries/ImageCompareLibrary.py
-Library    ../.venv/lib/python3.11/site-packages/robot/libraries/OperatingSystem.py
 Resource    fiber.resource
 Resource    ../resources/pages/login/login.resource
+Resource    ../resources/pages/network/operation_mode.resource
 
 *** Variables ***
 # BROWSER
@@ -20,24 +20,34 @@ ${DUT_MGMT_FIRST_ACCESS_PASSWORD}       M9w3#EH3
 
 # DUT PAGES
 ${DUT_LOGIN_WEBPAGE_URL}                ${DUT_MGMT_URL}/login
+${DUT_OPERATION_MODE_WEBPAGE_URL}       ${DUT_MGMT_URL}/operation_mode
 ${DUT_WATCHDOG_WEBPAGE_URL}             ${DUT_MGMT_URL}/watchdog
 ${DUT_NTP_WEBPAGE_URL}                  ${DUT_MGMT_URL}/ntp
+${DUT_SNMP_WEBPAGE_URL}                 ${DUT_MGMT_URL}/snmp
 
 # SIDEBAR MENU
 ${SIDEMENU}                             id=sidebar_menu
-${SIDEMENU_DASHBOARD}                   xpath=//*[@id="sidebar-options-menu"]/div[1]/div
+${SIDE_MENU_DASHBOARD}                  xpath=//*[@id="sidebar-options-menu"]/div[1]/div
+
+#SIDEBAR NETWORK MENU
+${SIDE_MENU_NETWORK}                    xpath=//*[@id="sidebar-options-menu"]/div[2]/div/div/i
+
+#SIDEBAR NETWORK SUBMENU                                     
+${SIDE_SUBMENU_OPERATION_MODE}          xpath=//*[@id="sidebar-options-menu"]/div[2]/ul/div[1]
 
 # SIDEBAR SERVICE MENU
-${SIDEMENU_SERVICES}                    xpath=//*[@id="sidebar-options-menu"]/div[5]/div/div/i
+${SIDE_MENU_SERVICES}                   xpath=//*[@id="sidebar-options-menu"]/div[5]/div/div/i
 
 # SIDEBAR SERVICE SUBMENU
-${SIDESUB_MENU_WATCHDOG}                xpath=//*[@id="sidebar-options-menu"]/div[5]/ul/div[4]
-${SIDESUB_MENU_NTP}                     xpath=//*[@id="sidebar-options-menu"]/div[5]/ul/div[3]
+${SIDE_SUBMENU_WATCHDOG}                xpath=//*[@id="sidebar-options-menu"]/div[5]/ul/div[4]
+${SIDE_SUBMENU_NTP}                     xpath=//*[@id="sidebar-options-menu"]/div[5]/ul/div[3]
+${SIDE_SUBMENU_SNMP}                    xpath=//*[@id="sidebar-options-menu"]/div[5]/ul/div[4]
 
 *** Keywords ***
 #################
 #    Browser    #
 #################
+
 Setup browser
     [Arguments]    ${url}=${none}
     ${GLOBAL_DEBUG_BROWSER}    Convert to boolean    ${GLOBAL_DEBUG_BROWSER}
@@ -118,6 +128,20 @@ Login to DUT (Spanish)
     AND Dashboard webpage should be displayed
     
 ###############
+#   DUT MODE  #
+###############
+
+DUT in bridge mode
+    Go to    ${DUT_OPERATION_MODE_WEBPAGE_URL}
+    Wait until network is idle
+    Select bridge operating mode
+
+DUT in router mode
+    Go to    ${DUT_OPERATION_MODE_WEBPAGE_URL}
+    Wait until network is idle
+    Select router operating mode
+
+###############
 #   Watchdog  #
 ###############
 
@@ -130,3 +154,10 @@ Go to DUT watchdog webpage
 
 Go to DUT ntp webpage
     Go to    ${DUT_NTP_WEBPAGE_URL}
+    
+###############
+#     SNMP    #
+###############
+
+Go to DUT snmp webpage
+    Go to    ${DUT_SNMP_WEBPAGE_URL}
