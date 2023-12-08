@@ -6,93 +6,50 @@ Resource            ../../../resources/pages/services/watchdog.resource
 
 Suite Setup         Run keywords
 ...                     Setup browser    url=${DUT_LOGIN_WEBPAGE_URL}
-...                     AND    Set Viewport Size    1000    950
-...                     AND    Login to DUT (Portuguese)
-...                     AND    Go to DUT watchdog webpage
+...                     AND    Login to DUT    language=portuguese
+...                     AND    Access watchdog service settings page
 Test Teardown       Run keyword if test failed
 ...                     Run keywords
 ...                     Clear browser storages
-...                     Login to DUT (Portuguese)
-...                     Go to DUT watchdog webpage
+...                     AND    Login to DUT    language=portuguese
+...                     AND    Access watchdog service settings page
 
-Force Tags          lang-pt    watchdog    smoke    header
+Force Tags          lang-pt    watchdog
 
 
 *** Test Cases ***
-Watchdog page title is visible
-    Get Text    
-    ...    ${WATCHDOG_PAGE_TITLE}    
-    ...    ==    
-    ...    Watchdog
-    Get Text    
-    ...    ${WATCHDOG_PAGE_SUBTITLE}    
-    ...    ==    
-    ...    Temporizador para checar a comunicação com outros dispositivos\n
+Factory default settings are correct
+    [Tags]    robot:continue-on-failure    smoke
+    Page inner title should be "Watchdog"
+    Page inner subtitle should be "Reinicialização automática do equipamento em caso de interrupção na comunicação com outros dispositivos"
 
-Validating Toggle on the Watchdog page
-    Watchdog toggle should not be enable
-    Get Text    
-    ...    ${WATCHDOG_PAGE_TOGGLE_TEXT}    
-    ...    ==    
-    ...    Habilitar Watchdog
+    Toggle switch text should be "Habilitar Watchdog"
+    Toggle switch should be off
 
-Watchdog Address 1 is not editable
+    Address 1 input title should be "Endereço 1"
     Address 1 input should be disabled
-    Get Text    
-    ...    ${WATCHDOG_PAGE_ADDRESS_1_TEXT}    
-    ...    ==    
-    ...    Endereço 1
-    Get Text    
-    ...    ${WATCHDOG_PAGE_ADDRESS_1_INPUT}    
-    ...    ==    
-    ...    192.168.1.1
+    Address 1 should be "192.168.1.1"
 
-Watchdog Address 2 is not editable
+    Address 2 input title should be "Endereço 2"
     Address 2 input should be disabled
-    Get Text    
-    ...    ${WATCHDOG_PAGE_ADDRESS_2_TEXT}    
-    ...    ==    
-    ...    Endereço 2
+    Address 2 should be ""
 
-Watchdog time is not editable
-    Time 'seconds' input should be disabled
-    Get Text    
-    ...    ${WATCHDOG_PAGE_CHECK_TIME_TEXT}    
-    ...    ==    
-    ...    Tempo de checagem (segundos)
-    Get Text    
-    ...    ${WATCHDOG_PAGE_CHECK_TIME_INPUT}    
-    ...    ==    
-    ...    30
+    Check interval input title should be "Tempo de checagem (segundos)"
+    Check interval input should be disabled
+    Check interval should be "30"
 
-Validating placeholder inputs with watchdog toggle enabled
-    Enable Toggle Watchdog
+    Save settings button text should be "SALVAR"
 
-    Clear Text    
-    ...    ${WATCHDOG_PAGE_ADDRESS_1_INPUT}
-    Get attribute    
-    ...    ${WATCHDOG_PAGE_ADDRESS_1_INPUT}    
-    ...    placeholder    
-    ...    ==    
-    ...    Domínio ou Endereço IP  
+Validate form interaction after enabling watchdog service
+    [Tags]    robot:continue-on-failure    smoke    wip
+    Enable watchdog service
+    Address 1 input should be enabled
+    Address 1 should be "192.168.1.1"
 
-    Get attribute    
-    ...    ${WATCHDOG_PAGE_ADDRESS_2_INPUT}    
-    ...    placeholder    
-    ...    ==    
-    ...    Domínio ou Endereço IP
- 
-    Clear Text    
-    ...    ${WATCHDOG_PAGE_CHECK_TIME_INPUT}
-    Get attribute    
-    ...    ${WATCHDOG_PAGE_CHECK_TIME_INPUT}    
-    ...    placeholder    
-    ...    ==    
-    ...    20 a 99999
+    Address 2 input should be enabled
+    Address 2 should be ""
+    Address 2 placeholder should be "Domínio ou endereço IP"
 
-Watchdog button is visible
-    View element state    
-    Get Text    
-    ...    ${WATCHDOG_PAGE_SAVE_BUTTON_TEXT}    
-    ...    ==    
-    ...    SALVAR
+    Check interval input should be enabled
+    Check interval should be "30"
+    Check interval placeholder should be "20 a 99999"

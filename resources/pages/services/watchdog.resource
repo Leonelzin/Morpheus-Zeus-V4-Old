@@ -1,249 +1,171 @@
 *** Settings ***
 Library     Browser
+Library     ../../../.venv/lib/python3.11/site-packages/robot/libraries/String.py
 Resource    ../../common.resource
 
 
 *** Variables ***
-${WATCHDOG_PAGE_TITLE}                      xpath=//*[@id="root"]/div[3]/div/div[1]/div[1]
-${WATCHDOG_PAGE_SUBTITLE}                   xpath=//*[@id="root"]/div[3]/div/div[1]/div[2]
+${SIDEMENU_TOGGLE}                              xpath=//*[@id="sidebar_menu"]/div[1]/div[1]
+${SIDEMENU_SERVICES_SUBMENU}                    xpath=//*[@id="sidebar-options-menu"]/div[5]/div/div/div/div
+${SIDEMENU_SERVICES_WATCHDOG}                   xpath=//*[@id="sidebar-options-menu"]/div[5]/ul/div[5]/p
 
-${WATCHDOG_PAGE_TOGGLE_TEXT}                xpath=//*[@id="root"]/div[3]/div/div[2]/div
-${WATCHDOG_PAGE_ENABLE_TOGGLE}              xpath=//*[@id="root"]/div[3]/div/div[2]
-${WATCHDOG_PAGE_ENABLE_TOGGLE_CLICKABLE}    xpath=//*[@id="root"]/div[3]/div/div[2]/label/span
+###
 
-${WATCHDOG_PAGE_ADDRESS_1_TEXT}             xpath=//*[@id="root"]/div[3]/div/div[3]/div[1]
-${WATCHDOG_PAGE_ADDRESS_1_INPUT}            xpath=//*[@id="root"]/div[3]/div/div[3]/div[1]/input
+${WATCHDOG_PAGE_INNER_TITLE}                    xpath=//*[@id="root"]/div[3]/div/div[1]/div[1]
+${WATCHDOG_PAGE_INNER_SUBTITLE}                 xpath=//*[@id="root"]/div[3]/div/div[1]/div[2]
 
-${WATCHDOG_PAGE_ADDRESS_2_TEXT}             xpath=//*[@id="root"]/div[3]/div/div[3]/div[2]
-${WATCHDOG_PAGE_ADDRESS_2_INPUT}            xpath=//*[@id="root"]/div[3]/div/div[3]/div[2]/input
+${WATCHDOG_PAGE_ENABLE_TOGGLE}                  xpath=//*[@id="root"]/div[3]/div/div[2]/label/input
+${WATCHDOG_PAGE_ENABLE_TOGGLE_CLICKABLE}        xpath=//*[@id="root"]/div[3]/div/div[2]/label/span
+${WATCHDOG_PAGE_ENABLE_TOGGLE_TEXT}             xpath=//*[@id="root"]/div[3]/div/div[2]/div
 
-${WATCHDOG_PAGE_CHECK_TIME_TEXT}            xpath=//*[@id="root"]/div[3]/div/div[3]/div[3]
-${WATCHDOG_PAGE_CHECK_TIME_INPUT}           xpath=//*[@id="root"]/div[3]/div/div[3]/div[3]/input
+${WATCHDOG_PAGE_ADDRESS_1_INPUT_TITLE}          xpath=//*[@id="root"]/div[3]/div/div[3]/div[1]
+${WATCHDOG_PAGE_ADDRESS_1_INPUT}                xpath=//*[@id="root"]/div[3]/div/div[3]/div[1]/input
 
-${WATCHDOG_PAGE_SAVE_BUTTON_TEXT}           xpath=//*[@id="root"]/div[3]/div/div[4]/button/span
-${WATCHDOG_PAGE_SAVE_BUTTON}                xpath=//*[@id="root"]/div[3]/div/div[4]/button
+${WATCHDOG_PAGE_ADDRESS_2_INPUT_TITLE}          xpath=//*[@id="root"]/div[3]/div/div[3]/div[2]
+${WATCHDOG_PAGE_ADDRESS_2_INPUT}                xpath=//*[@id="root"]/div[3]/div/div[3]/div[2]/input
 
-${WATCHDOG_PAGE_SELECT_LANG}                xpath=//*[@id="root"]/div[2]/div[2]/div/div[3]/div[2]/div
-${WATCHDOG_PAGE_SELECT_LANG_PT}             xpath=//*[@id="root"]/div[2]/div[2]/div/div[3]/div[3]/label[1]
-${WATCHDOG_PAGE_SELECT_LANG_EN}             xpath=//*[@id="root"]/div[2]/div[2]/div/div[3]/div[3]/label[2]
-${WATCHDOG_PAGE_SELECT_LANG_ES}             xpath=//*[@id="root"]/div[2]/div[2]/div/div[3]/div[3]/label[3]
+${WATCHDOG_PAGE_CHECK_INTERVAL_INPUT_TITLE}     xpath=//*[@id="root"]/div[3]/div/div[3]/div[3]
+${WATCHDOG_PAGE_CHECK_INTERVAL_INPUT}           xpath=//*[@id="root"]/div[3]/div/div[3]/div[3]/input
 
-${WATCHDOG_PAGE_DELAY_SECONDS}
-...                                         5
+${WATCHDOG_PAGE_SAVE_SETTINGS_BUTTON}           xpath=//*[@id="root"]/div[3]/div/div[4]/button
 
 
 *** Keywords ***
-Access Side Menu Services
-    Click    ${SIDEMENU_SERVICES}
+Access watchdog service settings page
+    ${submenu_is_visible}    Run keyword and return status
+    ...    Get element states
+    ...    ${SIDEMENU_SERVICES_SUBMENU}
+    ...    contains
+    ...    visible
 
-Access Side Sub Menu Watchdog
-    Click    ${SIDESUB_MENU_WATCHDOG}
+    IF    not ${submenu_is_visible}
+        Click    ${SIDEMENU_TOGGLE}
+        Wait for elements state
+        ...    ${SIDEMENU_SERVICES_SUBMENU}
+        ...    visible
+        ...    5s
+        ...    Services submenu was not visible (5 seconds timeout).
+    END
 
-Enable Toggle Watchdog
+    ${watchdog_option_is_visible}    Run keyword and return status
+    ...    Get element states
+    ...    ${SIDEMENU_SERVICES_WATCHDOG}
+    ...    contains
+    ...    visible
+
+    IF    not ${watchdog_option_is_visible}
+        Click    ${SIDEMENU_SERVICES_SUBMENU}
+        Wait for elements state
+        ...    ${SIDEMENU_SERVICES_WATCHDOG}
+        ...    visible
+        ...    5s
+        ...    Watchdog service submenu option was not visible (5 seconds timeout).
+    END
+
+    Click    ${SIDEMENU_SERVICES_WATCHDOG}
+
+    Wait for elements state
+    ...    ${WATCHDOG_PAGE_SAVE_SETTINGS_BUTTON}
+    ...    visible
+    ...    10s
+    ...    Watchdog page save settings button was not visible (10 seconds timeout).
+
+Page inner title should be "${text}"
+    Get text    ${WATCHDOG_PAGE_INNER_TITLE}    ==    ${text}
+
+Page inner subtitle should be "${text}"
+    ${str}    Get text    ${WATCHDOG_PAGE_INNER_SUBTITLE}
+    ${str_stripped}    Strip string    ${str}
+    Should be equal as strings    ${str_stripped}    ${text}
+
+Toggle switch text should be "${text}"
+    Get text    ${WATCHDOG_PAGE_ENABLE_TOGGLE_TEXT}    ==    ${text}
+
+Toggle switch should be off
+    Get checkbox state    ${WATCHDOG_PAGE_ENABLE_TOGGLE}    ==    unchecked
+    ...    Watchdog service should be disabled.
+
+Address 1 input title should be "${text}"
+    Get text    ${WATCHDOG_PAGE_ADDRESS_1_INPUT_TITLE}    ==    ${text}
+
+Address 1 should be "${text}"
+    Get text    ${WATCHDOG_PAGE_ADDRESS_1_INPUT}    ==    ${text}
+
+Address 1 input should be enabled
+    Get element states
+    ...    ${WATCHDOG_PAGE_ADDRESS_1_INPUT}
+    ...    contains
+    ...    enabled
+    ...    message=IP address 1 input should be enabled (editable).
+
+Address 1 input should be disabled
+    Get element states
+    ...    ${WATCHDOG_PAGE_ADDRESS_1_INPUT}
+    ...    contains
+    ...    disabled
+    ...    message=IP address 1 input should be disabled (not editable).
+
+Address 2 input title should be "${text}"
+    Get text    ${WATCHDOG_PAGE_ADDRESS_2_INPUT_TITLE}    ==    ${text}
+
+Address 2 should be "${text}"
+    Get text    ${WATCHDOG_PAGE_ADDRESS_2_INPUT}    ==    ${text}
+
+Address 2 input should be enabled
+    Get element states
+    ...    ${WATCHDOG_PAGE_ADDRESS_2_INPUT}
+    ...    contains
+    ...    enabled
+    ...    message=IP address 2 input should be enabled (editable).
+
+Address 2 input should be disabled
+    Get element states
+    ...    ${WATCHDOG_PAGE_ADDRESS_2_INPUT}
+    ...    contains
+    ...    disabled
+    ...    message=IP address 2 input should be disabled (not editable).
+
+Address 2 placeholder should be "${text}"
+    Get attribute
+    ...    ${WATCHDOG_PAGE_ADDRESS_2_INPUT}
+    ...    placeholder    ==    ${text}
+
+Check interval input title should be "${text}"
+    Get text    ${WATCHDOG_PAGE_CHECK_INTERVAL_INPUT_TITLE}    ==    ${text}
+
+Check interval input should be enabled
+    Get element states
+    ...    ${WATCHDOG_PAGE_CHECK_INTERVAL_INPUT}
+    ...    contains
+    ...    enabled
+    ...    message=Check interval input should be enabled (editable).
+
+Check interval input should be disabled
+    Get element states
+    ...    ${WATCHDOG_PAGE_CHECK_INTERVAL_INPUT}
+    ...    contains
+    ...    disabled
+    ...    message=Check interval input should be disabled (not editable).
+
+Check interval placeholder should be "${text}"
+    Get attribute
+    ...    ${WATCHDOG_PAGE_CHECK_INTERVAL_INPUT}
+    ...    placeholder    ==    ${text}
+
+Check interval should be "${text}"
+    Get text    ${WATCHDOG_PAGE_CHECK_INTERVAL_INPUT}    ==    ${text}
+
+Save settings button text should be "${text}"
+    Get text    ${WATCHDOG_PAGE_SAVE_SETTINGS_BUTTON}    ==    ${text}
+
+Enable watchdog service
     ${checked}    Get checkbox state    ${WATCHDOG_PAGE_ENABLE_TOGGLE}
     IF    ${checked} == ${false}
         Click    ${WATCHDOG_PAGE_ENABLE_TOGGLE_CLICKABLE}
     END
 
-Disable Toggle Watchdog
+Disable watchdog service
     ${checked}    Get checkbox state    ${WATCHDOG_PAGE_ENABLE_TOGGLE}
     IF    ${checked} == ${true}
         Click    ${WATCHDOG_PAGE_ENABLE_TOGGLE_CLICKABLE}
     END
-
-Watchdog toggle should not be enable
-    Get checkbox state
-    ...    ${WATCHDOG_PAGE_ENABLE_TOGGLE}
-    ...    !=    checked
-
-Address 1 input should be disabled
-    Get attribute
-    ...    ${WATCHDOG_PAGE_ADDRESS_1_INPUT}
-    ...    disabled
-
-Address 2 input should be disabled
-    Get attribute
-    ...    ${WATCHDOG_PAGE_ADDRESS_2_INPUT}
-    ...    disabled
-
-Time 'seconds' input should be disabled
-    Get attribute
-    ...    ${WATCHDOG_PAGE_CHECK_TIME_INPUT}
-    ...    disabled
-
-View element state
-    Wait for elements state
-    ...    ${WATCHDOG_PAGE_SAVE_BUTTON}
-    ...    visible
-
-All Watchdogs on-screen smoke tests in English
-    [Documentation]
-    #These keywords refer to the mapping of elements on the watchdog's screen in English.
-    #This general keyword is not suitable for running in a test, it is only useful for use in other test cases.
-
-    Get Text
-    ...    ${WATCHDOG_PAGE_TITLE}
-    ...    ==
-    ...    Watchdog
-    Get Text
-    ...    ${WATCHDOG_PAGE_SUBTITLE}
-    ...    ==
-    ...    Timer that triggers a system check in seconds due to supposed error condition.\n
-
-    Get checkbox state
-    ...    ${WATCHDOG_PAGE_ENABLE_TOGGLE}
-    ...    !=
-    ...    checked
-
-    Get Text
-    ...    ${WATCHDOG_PAGE_TOGGLE_TEXT}
-    ...    ==
-    ...    Enable Watchdog
-
-    Get Text
-    ...    ${WATCHDOG_PAGE_ADDRESS_1_TEXT}
-    ...    ==
-    ...    Address 1
-    Get Text
-    ...    ${WATCHDOG_PAGE_ADDRESS_1_INPUT}
-    ...    ==
-    ...    192.168.1.1
-
-    Get Text
-    ...    ${WATCHDOG_PAGE_ADDRESS_2_TEXT}
-    ...    ==
-    ...    Address 2
-
-    Get Text
-    ...    ${WATCHDOG_PAGE_CHECK_TIME_TEXT}
-    ...    ==
-    ...    Check time (seconds)
-    Get Text
-    ...    ${WATCHDOG_PAGE_CHECK_TIME_INPUT}
-    ...    ==
-    ...    30
-
-    ${checked}    Get checkbox state    ${WATCHDOG_PAGE_ENABLE_TOGGLE}
-    IF    ${checked} == ${false}
-        Click    ${WATCHDOG_PAGE_ENABLE_TOGGLE_CLICKABLE}
-    END
-
-    Clear Text    ${WATCHDOG_PAGE_ADDRESS_1_INPUT}
-    Get attribute
-    ...    ${WATCHDOG_PAGE_ADDRESS_1_INPUT}
-    ...    placeholder
-    ...    ==
-    ...    Domain or IP address
-
-    Get attribute
-    ...    ${WATCHDOG_PAGE_ADDRESS_2_INPUT}
-    ...    placeholder
-    ...    ==
-    ...    Domain or IP address
-
-    Clear Text    ${WATCHDOG_PAGE_CHECK_TIME_INPUT}
-    Get attribute
-    ...    ${WATCHDOG_PAGE_CHECK_TIME_INPUT}
-    ...    placeholder
-    ...    ==
-    ...    20 to 99999
-
-    Get Text
-    ...    ${WATCHDOG_PAGE_SAVE_BUTTON_TEXT}
-    ...    ==
-    ...    SAVE
-
-All Watchdogs on-screen smoke tests in Spanish
-    [Documentation]
-    #Estas palabras clave se refieren al mapeo de elementos en la pantalla del watchdog's en spanish.
-    #Esta palabra clave general no es adecuada para ejecutarse en una prueba, solo es útil para usarla en otros casos de prueba.
-
-    Get Text
-    ...    ${WATCHDOG_PAGE_TITLE}
-    ...    ==
-    ...    Watchdog
-    Get Text
-    ...    ${WATCHDOG_PAGE_SUBTITLE}
-    ...    ==
-    ...    Temporizador que activa una verificación del sistema en segundos debido a una supuesta condición de error.\n
-
-    Get checkbox state
-    ...    ${WATCHDOG_PAGE_ENABLE_TOGGLE}
-    ...    !=
-    ...    checked
-
-    Get Text
-    ...    ${WATCHDOG_PAGE_TOGGLE_TEXT}
-    ...    ==
-    ...    Habilitar Watchdog
-
-    Get Text
-    ...    ${WATCHDOG_PAGE_ADDRESS_1_TEXT}
-    ...    ==
-    ...    Dirección 1
-    Get Text
-    ...    ${WATCHDOG_PAGE_ADDRESS_1_INPUT}
-    ...    ==
-    ...    192.168.1.1
-
-    Get Text
-    ...    ${WATCHDOG_PAGE_ADDRESS_2_TEXT}
-    ...    ==
-    ...    Dirección 2
-
-    Get Text
-    ...    ${WATCHDOG_PAGE_CHECK_TIME_TEXT}
-    ...    ==
-    ...    Comprobar el tiempo (segundos)
-    Get Text
-    ...    ${WATCHDOG_PAGE_CHECK_TIME_INPUT}
-    ...    ==
-    ...    30
-
-    ${checked}    Get checkbox state    ${WATCHDOG_PAGE_ENABLE_TOGGLE}
-    IF    ${checked} == ${false}
-        Click    ${WATCHDOG_PAGE_ENABLE_TOGGLE_CLICKABLE}
-    END
-
-    Clear Text    ${WATCHDOG_PAGE_ADDRESS_1_INPUT}
-    Get attribute
-    ...    ${WATCHDOG_PAGE_ADDRESS_1_INPUT}
-    ...    placeholder
-    ...    ==
-    ...    Dominio o dirección IP
-
-    Get attribute
-    ...    ${WATCHDOG_PAGE_ADDRESS_2_INPUT}
-    ...    placeholder
-    ...    ==
-    ...    Dominio o dirección IP
-
-    Clear Text    ${WATCHDOG_PAGE_CHECK_TIME_INPUT}
-    Get attribute
-    ...    ${WATCHDOG_PAGE_CHECK_TIME_INPUT}
-    ...    placeholder
-    ...    ==
-    ...    20 a 99999
-
-    Get Text
-    ...    ${WATCHDOG_PAGE_SAVE_BUTTON_TEXT}
-    ...    ==
-    ...    AHORRAR
-
-Select Portuguese language on the watchdog screen
-    Click
-    ...    ${WATCHDOG_PAGE_SELECT_LANG}
-    Click
-    ...    ${WATCHDOG_PAGE_SELECT_LANG_PT}
-
-Select English language on the watchdog screen
-    Click
-    ...    ${WATCHDOG_PAGE_SELECT_LANG}
-    Click
-    ...    ${WATCHDOG_PAGE_SELECT_LANG_EN}
-
-Select Spanish language on the watchdog screen
-    Click
-    ...    ${WATCHDOG_PAGE_SELECT_LANG}
-    Click
-    ...    ${WATCHDOG_PAGE_SELECT_LANG_ES}

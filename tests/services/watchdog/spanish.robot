@@ -6,93 +6,50 @@ Resource            ../../../resources/pages/services/watchdog.resource
 
 Suite Setup         Run keywords
 ...                     Setup browser    url=${DUT_LOGIN_WEBPAGE_URL}
-...                     AND    Set Viewport Size    1000    950
-...                     AND    Login to DUT (Spanish)
-...                     AND    Go to DUT watchdog webpage
+...                     AND    Login to DUT    language=spanish
+...                     AND    Access watchdog service settings page
 Test Teardown       Run keyword if test failed
 ...                     Run keywords
 ...                     Clear browser storages
-...                     Login to DUT (Spanish)
-...                     Go to DUT watchdog webpage
+...                     AND    Login to DUT    language=spanish
+...                     AND    Access watchdog service settings page
 
-Force Tags          lang-es   watchdog    smoke    header
+Force Tags          lang-es    watchdog
 
 
 *** Test Cases ***
-Watchdog page title is visible
-    Get Text    
-    ...    ${WATCHDOG_PAGE_TITLE}    
-    ...    ==    
-    ...    Watchdog
-    Get Text    
-    ...    ${WATCHDOG_PAGE_SUBTITLE}    
-    ...    ==    
-    ...    Temporizador que activa una verificación del sistema en segundos debido a una supuesta condición de error.\n
- 
-Validating Toggle on the Watchdog page
-    Watchdog toggle should not be enable
-    Get Text    
-    ...    ${WATCHDOG_PAGE_TOGGLE_TEXT}    
-    ...    ==    
-    ...    Habilitar Watchdog
-   
-Watchdog Address 1 is not editable
+Factory default settings are correct
+    [Tags]    robot:continue-on-failure    smoke
+    Page inner title should be "Watchdog"
+    Page inner subtitle should be "Reinicio automático del equipo en caso de interrupción en la comunicación con otros dispositivos"
+
+    Toggle switch text should be "Habilitar Watchdog"
+    Toggle switch should be off
+
+    Address 1 input title should be "Dirección 1"
     Address 1 input should be disabled
-    Get Text    
-    ...    ${WATCHDOG_PAGE_ADDRESS_1_TEXT}    
-    ...    ==    
-    ...    Dirección 1
-    Get Text    
-    ...    ${WATCHDOG_PAGE_ADDRESS_1_INPUT}    
-    ...    ==    
-    ...    192.168.1.1
+    Address 1 should be "192.168.1.1"
 
-Watchdog Address 2 is not editable
+    Address 2 input title should be "Dirección 2"
     Address 2 input should be disabled
-    Get Text    
-    ...    ${WATCHDOG_PAGE_ADDRESS_2_TEXT}    
-    ...    ==    
-    ...    Dirección 2
-   
-Watchdog time is not editable
-    Time 'seconds' input should be disabled
-    Get Text    
-    ...    ${WATCHDOG_PAGE_CHECK_TIME_TEXT}    
-    ...    ==    
-    ...    Comprobar el tiempo (segundos)
-    Get Text    
-    ...    ${WATCHDOG_PAGE_CHECK_TIME_INPUT}    
-    ...    ==    
-    ...    30
-    
-Validating placeholder inputs with watchdog toggle enabled
-    Enable Toggle Watchdog
+    Address 2 should be ""
 
-    Clear Text    
-    ...    ${WATCHDOG_PAGE_ADDRESS_1_INPUT}
-    Get attribute    
-    ...    ${WATCHDOG_PAGE_ADDRESS_1_INPUT}    
-    ...    placeholder    
-    ...    ==    
-    ...    Dominio o dirección IP
+    Check interval input title should be "Tiempo de verificación (segundos)"
+    Check interval input should be disabled
+    Check interval should be "30"
 
-    Get attribute    
-    ...    ${WATCHDOG_PAGE_ADDRESS_2_INPUT}    
-    ...    placeholder    
-    ...    ==    
-    ...    Dominio o dirección IP
- 
-    Clear Text    
-    ...    ${WATCHDOG_PAGE_CHECK_TIME_INPUT}
-    Get attribute    
-    ...    ${WATCHDOG_PAGE_CHECK_TIME_INPUT}    
-    ...    placeholder    
-    ...    ==    
-    ...    20 a 99999
+    Save settings button text should be "GUARDAR"
 
-Watchdog button is visible
-    View element state    
-    Get Text    
-    ...    ${WATCHDOG_PAGE_SAVE_BUTTON_TEXT}    
-    ...    ==    
-    ...    AHORRAR
+Validate form interaction after enabling watchdog service
+    [Tags]    robot:continue-on-failure    smoke    wip
+    Enable watchdog service
+    Address 1 input should be enabled
+    Address 1 should be "192.168.1.1"
+
+    Address 2 input should be enabled
+    Address 2 should be ""
+    Address 2 placeholder should be "Dominio o dirección IP"
+
+    Check interval input should be enabled
+    Check interval should be "30"
+    Check interval placeholder should be "20 a 99999"

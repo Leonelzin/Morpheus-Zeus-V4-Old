@@ -5,18 +5,19 @@ Resource    fiber.resource
 Resource    ../resources/pages/login/login.resource
 Resource    ../resources/pages/network/operation_mode.resource
 
+
 *** Variables ***
 # BROWSER
 ${GLOBAL_DEBUG_BROWSER}                 ${false}
 
 # DUT
-${DUT_MGMT_IPV4_ADDRESS}                192.168.0.3
+${DUT_MGMT_IPV4_ADDRESS}                10.0.0.1
 ${DUT_MGMT_HTTP_PORT}                   80
 ${DUT_MGMT_HTTP_PROTOCOL}               http
 ${DUT_MGMT_URL}                         ${DUT_MGMT_HTTP_PROTOCOL}://${DUT_MGMT_IPV4_ADDRESS}:${DUT_MGMT_HTTP_PORT}
 ${DUT_MGMT_USER}                        admin
-${DUT_MGMT_PASSWORD}                    Lockzeus@1
-${DUT_MGMT_FIRST_ACCESS_PASSWORD}       M9w3#EH3
+${DUT_MGMT_PASSWORD}                    M0rpheus01!
+${DUT_MGMT_FIRST_ACCESS_PASSWORD}       kH9N$UwP
 
 # DUT PAGES
 ${DUT_LOGIN_WEBPAGE_URL}                ${DUT_MGMT_URL}/login
@@ -29,10 +30,10 @@ ${DUT_SNMP_WEBPAGE_URL}                 ${DUT_MGMT_URL}/snmp
 ${SIDEMENU}                             id=sidebar_menu
 ${SIDE_MENU_DASHBOARD}                  xpath=//*[@id="sidebar-options-menu"]/div[1]/div
 
-#SIDEBAR NETWORK MENU
+# SIDEBAR NETWORK MENU
 ${SIDE_MENU_NETWORK}                    xpath=//*[@id="sidebar-options-menu"]/div[2]/div/div/i
 
-#SIDEBAR NETWORK SUBMENU                                     
+# SIDEBAR NETWORK SUBMENU
 ${SIDE_SUBMENU_OPERATION_MODE}          xpath=//*[@id="sidebar-options-menu"]/div[2]/ul/div[1]
 
 # SIDEBAR SERVICE MENU
@@ -42,6 +43,7 @@ ${SIDE_MENU_SERVICES}                   xpath=//*[@id="sidebar-options-menu"]/di
 ${SIDE_SUBMENU_WATCHDOG}                xpath=//*[@id="sidebar-options-menu"]/div[5]/ul/div[4]
 ${SIDE_SUBMENU_NTP}                     xpath=//*[@id="sidebar-options-menu"]/div[5]/ul/div[3]
 ${SIDE_SUBMENU_SNMP}                    xpath=//*[@id="sidebar-options-menu"]/div[5]/ul/div[4]
+
 
 *** Keywords ***
 #################
@@ -100,36 +102,35 @@ Go to DUT login webpage
     Go to    ${DUT_LOGIN_WEBPAGE_URL}
     Wait until network is idle
 
-Login to DUT (Portuguese)
-    AND Go to DUT login webpage
-    AND Open language selection dropdown menu
-    AND Select Portuguese language
-    AND Enter username "${DUT_MGMT_USER}"
-    AND Enter password "${DUT_MGMT_PASSWORD}"
-    AND Click login button
-    AND Dashboard webpage should be displayed
+Login to DUT
+    [Arguments]    ${language}=portuguese
 
-Login to DUT (English)
-    AND Go to DUT login webpage
-    AND Open language selection dropdown menu
-    AND Select English language
-    AND Enter username "${DUT_MGMT_USER}"
-    AND Enter password "${DUT_MGMT_PASSWORD}"
-    AND Click login button
-    AND Dashboard webpage should be displayed
+    Go to DUT login webpage
+    Open language selection dropdown menu
 
-Login to DUT (Spanish)
-    AND Go to DUT login webpage
-    AND Open language selection dropdown menu
-    AND Select Spanish language
-    AND Enter username "${DUT_MGMT_USER}"
-    AND Enter password "${DUT_MGMT_PASSWORD}"
-    AND Click login button
-    AND Dashboard webpage should be displayed
-    
-###############
-#   DUT MODE  #
-###############
+    IF    "${language}" == "portuguese"
+        Select Portuguese language
+    ELSE IF    "${language}" == "english"
+        Select English language
+    ELSE IF    "${language}" == "spanish"
+        Select Spanish language
+    END
+
+    Enter username "${DUT_MGMT_USER}"
+    Enter password "${DUT_MGMT_PASSWORD}"
+    Click login button
+    Wait until network is idle
+    Wait until keyword succeeds    3x    1s    Side menu is opened
+
+Side menu is opened
+    Get element states
+    ...    xpath=//*[@id="sidebar-options-menu"]/div[1]/div/div/div/div
+    ...    contains
+    ...    visible
+
+##################
+#    DUT MODE    #
+##################
 
 DUT in bridge mode
     Go to    ${DUT_OPERATION_MODE_WEBPAGE_URL}
@@ -141,23 +142,23 @@ DUT in router mode
     Wait until network is idle
     Select router operating mode
 
-###############
-#   Watchdog  #
-###############
+##################
+#    Watchdog    #
+##################
 
 Go to DUT watchdog webpage
     Go to    ${DUT_WATCHDOG_WEBPAGE_URL}
 
-###############
-#     NTP     #
-###############
+#############
+#    NTP    #
+#############
 
 Go to DUT ntp webpage
     Go to    ${DUT_NTP_WEBPAGE_URL}
-    
-###############
-#     SNMP    #
-###############
+
+##############
+#    SNMP    #
+##############
 
 Go to DUT snmp webpage
     Go to    ${DUT_SNMP_WEBPAGE_URL}
