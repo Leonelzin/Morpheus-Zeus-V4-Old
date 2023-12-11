@@ -22,13 +22,13 @@ Force Tags          lang-pt    login    first-access    smoke
 
 *** Test Cases ***
 Advertising banner is displayed
-    Advertising banner should be displayed
+    first_access.Advertising banner should be displayed
 
 Default language is Portuguese
     First access login form should be in Portuguese
 
 Username is admin and not editable
-    Username input should be "admin"
+    first_access.Username input should be "admin"
     Username input should be disabled
 
 Password and confirmation password are empty by default
@@ -48,5 +48,5 @@ Dashboard is displayed after first access login
     Enter password "${DUT_MGMT_PASSWORD}"
     Enter password confirmation "${DUT_MGMT_PASSWORD}"
     Accept privacy policy and terms of use
-    Click login button
+    first_access.Click login button
     Wait until dashboard webpage is displayed
