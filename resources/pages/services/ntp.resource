@@ -107,6 +107,13 @@ Server 1 input should be enabled
     ...    enabled
     ...    message=Server address 1 input should be enabled (editable).
 
+Server 1 input should be disabled
+    Get element states
+    ...    ${NTP_PAGE_SERVER_1_INPUT}
+    ...    contains
+    ...    disabled
+    ...    message=Server address 1 input should be disabled (not editable).
+
 Server 2 input title should be "${text}"
     Get text    ${NTP_PAGE_SERVER_2_INPUT_TITLE}    ==    ${text}
 
@@ -120,6 +127,13 @@ Server 2 input should be enabled
     ...    enabled
     ...    message=Server address 1 input should be enabled (editable).
 
+Server 2 input should be disabled
+    Get element states
+    ...    ${NTP_PAGE_SERVER_2_INPUT}
+    ...    contains
+    ...    disabled
+    ...    message=Server address 2 input should be disabled (not editable).
+
 Timezone select option should be "${text}"
     Get text    ${NTP_PAGE_TIMEZONE_SELECT}    ==    ${text}
 
@@ -129,6 +143,10 @@ Daylight saving time toggle switch text should be "${text}"
 Daylight saving time toggle switch should be off
     Get checkbox state    ${NTP_PAGE_DAYLIGHT_ST_TOGGLE}    ==    unchecked
     ...    Daylight saving time should be disabled.
+
+Daylight saving time toggle switch should be on
+    Get checkbox state    ${NTP_PAGE_DAYLIGHT_ST_TOGGLE}    ==    checked
+    ...    Daylight saving time should be enabled.
 
 Open timezone selection dropdown menu
     ${elem_states}    Get element states    ${NTP_PAGE_TIMEZONE_SELECT_OPTIONS_DROPDOWN}
@@ -162,3 +180,44 @@ Timezone "${text}" should be available
         END
     END
     Fail    Timezone ${text} is not available.
+
+Disable NTP client
+    ${checked}    Get checkbox state    ${NTP_PAGE_ENABLE_TOGGLE}
+    IF    ${checked} == ${true}    Click    ${NTP_PAGE_ENABLE_TOGGLE_CLICKABLE}
+
+Select timezone "${text}"
+    ${timezones_elem_list}    Get elements    ${NTP_PAGE_TIMEZONE_SELECT_OPTIONS_DROPDOWN}/li
+    FOR    ${timezone_elem}    IN    @{timezones_elem_list}
+        ${timezone_text}    Get text    ${timezone_elem}
+        IF    "${timezone_text}" == "${text}"
+            Click    ${timezone_elem}
+            Get element states
+            ...    ${NTP_PAGE_TIMEZONE_SELECT_OPTIONS_DROPDOWN}
+            ...    not contains
+            ...    visible
+            ...    message=Timezone dropdown did not automatically close upon selection.
+            RETURN
+        END
+    END
+    Fail    Timezone ${text} is not available.
+
+Timezone select should be disabled
+    Get element states
+    ...    ${NTP_PAGE_TIMEZONE_SELECT}
+    ...    contains
+    ...    readonly
+    ...    message=Timezone select should be disabled (not editable).
+
+Daylight saving time toggle switch should be disabled
+    Get element states
+    ...    ${NTP_PAGE_DAYLIGHT_ST_TOGGLE}
+    ...    contains
+    ...    disabled
+    ...    message=Daylight saving time toggle should be disabled (not editable).
+
+Enable daylight saving time
+    ${checked}    Get checkbox state    ${NTP_PAGE_DAYLIGHT_ST_TOGGLE}
+    IF    ${checked} == ${false}
+        Click    ${NTP_PAGE_DAYLIGHT_ST_TOGGLE_CLICKABLE}
+    END
+    Wait for elements state    ${NTP_PAGE_DAYLIGHT_ST_TOGGLE}    checked

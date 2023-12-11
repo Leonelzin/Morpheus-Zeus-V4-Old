@@ -14,7 +14,7 @@ Test Teardown       Run keyword if test failed
 ...                     AND    Login to DUT    language=portuguese
 ...                     AND    Access NTP service settings page
 
-Force Tags          lang-pt    ntp
+Force Tags          lang-pt    ntp    wip
 
 
 *** Test Cases ***
@@ -40,13 +40,30 @@ Factory default settings are correct
     Daylight saving time toggle switch should be off
 
 Four timezones are available: Bogotá, Manaus, São Paulo and Fernando de Noronha
-    [Tags]    robot:continue-on-failure    smoke    wip
+    [Tags]    robot:continue-on-failure    smoke
     There should be "4" timezones available
     Timezone "(GMT-05:00) Bogota" should be available
     Timezone "(GMT-04:00) Manaus" should be available
     Timezone "(GMT-03:00) São Paulo" should be available
     Timezone "(GMT-02:00) Fernando de Noronha" should be available
 
-# Validate form interaction after disabling NTP client
-#    [Tags]    robot:continue-on-failure    smoke    wip
-#    Sleep    3s
+Validate form interaction after disabling NTP client
+    [Tags]    robot:continue-on-failure    smoke
+    Open timezone selection dropdown menu
+    Select timezone "(GMT-04:00) Manaus"
+
+    Enable daylight saving time
+
+    Disable NTP client
+
+    Server 1 input should be disabled
+    Server 1 should be "a.ntp.br"
+
+    Server 2 input should be disabled
+    Server 2 should be "b.ntp.br"
+
+    Timezone select option should be "(GMT-04:00) Manaus"
+    Timezone select should be disabled
+
+    Daylight saving time toggle switch should be on
+    Daylight saving time toggle switch should be disabled
