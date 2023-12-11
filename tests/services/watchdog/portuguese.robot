@@ -41,7 +41,7 @@ Factory default settings are correct
     Save settings button text should be "SALVAR"
 
 Validate form interaction after enabling watchdog service
-    [Tags]    robot:continue-on-failure    smoke    wip
+    [Tags]    robot:continue-on-failure    smoke
     Enable watchdog service
     Address 1 input should be enabled
     Address 1 should be "192.168.1.1"
