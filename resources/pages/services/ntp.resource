@@ -1,186 +1,164 @@
 *** Settings ***
 Library     Browser
+Library     String
 Resource    ../../common.resource
 
 
 *** Variables ***
-${NTP_PAGE_FORM_TITLE}                                      xpath=//*[@id="root"]/div[3]/div/div[1]/div[1]
-${NTP_PAGE_FORM_SUBTITLE}                                   xpath=//*[@id="root"]/div[3]/div/div[1]/div[2]
+${SIDEMENU_TOGGLE}                              xpath=//*[@id="sidebar_menu"]/div[1]/div[1]
+${SIDEMENU_SERVICES_SUBMENU}                    xpath=//*[@id="sidebar-options-menu"]/div[5]/div/div/div/div
+${SIDEMENU_SERVICES_NTP}                        xpath=//*[@id="sidebar-options-menu"]/div[5]/ul/div[3]/p
 
-${NTP_PAGE_TOGGLE_ENABLE_CLIENT_TEXT}                       xpath=//*[@id="root"]/div[3]/div/div[2]/div
-${NTP_PAGE_TOGGLE_ENABLE_CLIENT}                            xpath=//*[@id="root"]/div[3]/div/div[2]
-${NTP_PAGE_TOGGLE_ENABLE_CLIENT_CLICKABLE}                  xpath=//*[@id="root"]/div[3]/div/div[2]/label/span
+###
 
-${NTP_PAGE_SERVER_1_INPUT_TITLE}                            xpath=//*[@id="root"]/div[3]/div/div[3]/div[1]
-${NTP_PAGE_SERVER_1_INPUT}                                  xpath=//*[@id="root"]/div[3]/div/div[3]/div[1]/input
+${NTP_PAGE_INNER_TITLE}                         xpath=//*[@id="root"]/div[3]/div/div[1]/div[1]
+${NTP_PAGE_INNER_SUBTITLE}                      xpath=//*[@id="root"]/div[3]/div/div[1]/div[2]
 
-${NTP_PAGE_SERVER_2_INPUT_TITLE}                            xpath=//*[@id="root"]/div[3]/div/div[3]/div[2]
-${NTP_PAGE_SERVER_2_INPUT}                                  xpath=//*[@id="root"]/div[3]/div/div[3]/div[2]/input
+${NTP_PAGE_ENABLE_TOGGLE}                       xpath=//*[@id="root"]/div[3]/div/div[2]/label/input
+${NTP_PAGE_ENABLE_TOGGLE_CLICKABLE}             xpath=//*[@id="root"]/div[3]/div/div[2]/label/span
+${NTP_PAGE_ENABLE_TOGGLE_TEXT}                  xpath=//*[@id="root"]/div[3]/div/div[2]/div
 
-${NTP_PAGE_ZONE_SELECT_TITLE}                               xpath=//*[@id="root"]/div[3]/div/div[4]/div[1]/div/div
-${NTP_PAGE_ZONE_SELECT_OPTIONS_DROPDOWN}                    xpath=//*[@id="root"]/div[3]/div/div[4]/div[1]/div/div/ul
-${NTP_PAGE_ZONE_SELECT}                                     xpath=//*[@id="root"]/div[3]/div/div[4]/div[1]/div/div/div/input
-${NTP_PAGE_ZONE_SELECT_OPTION_BG}                           xpath=//*[@id="root"]/div[3]/div/div[4]/div[1]/div/div/ul/li[1]/div
-${NTP_PAGE_ZONE_SELECT_OPTION_MN}                           xpath=//*[@id="root"]/div[3]/div/div[4]/div[1]/div/div/ul/li[2]/div
-${NTP_PAGE_ZONE_SELECT_OPTION_SP}                           xpath=//*[@id="root"]/div[3]/div/div[4]/div[1]/div/div/ul/li[3]/div
-${NTP_PAGE_ZONE_SELECT_OPTION_FN}                           xpath=//*[@id="root"]/div[3]/div/div[4]/div[1]/div/div/ul/li[4]/div
+${NTP_PAGE_SERVER_1_INPUT_TITLE}                xpath=//*[@id="root"]/div[3]/div/div[3]/div[1]
+${NTP_PAGE_SERVER_1_INPUT}                      xpath=//*[@id="root"]/div[3]/div/div[3]/div[1]/input
 
-${NTP_PAGE_TOGGLE_DST_TEXT}                                 xpath=//*[@id="root"]/div[3]/div/div[4]/div[2]/div/div
-${NTP_PAGE_TOGGLE_DST}                                      xpath=//*[@id="root"]/div[3]/div/div[4]/div[2]
-${NTP_PAGE_TOGGLE_DST_CLICKABLE}                            xpath=//*[@id="root"]/div[3]/div/div[4]/div[2]/div/label/span
+${NTP_PAGE_SERVER_2_INPUT_TITLE}                xpath=//*[@id="root"]/div[3]/div/div[3]/div[2]
+${NTP_PAGE_SERVER_2_INPUT}                      xpath=//*[@id="root"]/div[3]/div/div[3]/div[2]/input
 
-${NTP_PAGE_SAVE_BUTTON_TEXT}                                xpath=//*[@id="root"]/div[3]/div/div[5]/button/span
-${NTP_PAGE_SAVE_BUTTON}                                     xpath=//*[@id="root"]/div[3]/div/div[5]/button
+${NTP_PAGE_SAVE_SETTINGS_BUTTON}                xpath=//*[@id="root"]/div[3]/div/div[5]/button
+
+${NTP_PAGE_TIMEZONE_SELECT_TITLE}               xpath=//*[@id="root"]/div[3]/div/div[4]/div[1]/div/div
+${NTP_PAGE_TIMEZONE_SELECT}                     xpath=//*[@id="root"]/div[3]/div/div[4]/div[1]/div/div/div/input
+${NTP_PAGE_TIMEZONE_SELECT_OPTIONS_DROPDOWN}    xpath=//*[@id="root"]/div[3]/div/div[4]/div[1]/div/div/ul
+${NTP_PAGE_TIMEZONE_SELECT_OPTION_BOGOTA}       xpath=//*[@id="root"]/div[3]/div/div[4]/div[1]/div/div/ul/li[1]/div
+${NTP_PAGE_TIMEZONE_SELECT_OPTION_MANAUS}       xpath=//*[@id="root"]/div[3]/div/div[4]/div[1]/div/div/ul/li[2]/div
+${NTP_PAGE_TIMEZONE_SELECT_OPTION_SAO_PAULO}    xpath=//*[@id="root"]/div[3]/div/div[4]/div[1]/div/div/ul/li[3]/div
+${NTP_PAGE_TIMEZONE_SELECT_OPTION_NORONHA}      xpath=//*[@id="root"]/div[3]/div/div[4]/div[1]/div/div/ul/li[4]/div
+
+${NTP_PAGE_DAYLIGHT_ST_TOGGLE}                  xpath=//*[@id="root"]/div[3]/div/div[4]/div[2]/div/label/input
+${NTP_PAGE_DAYLIGHT_ST_TOGGLE_CLICKABLE}        xpath=//*[@id="root"]/div[3]/div/div[4]/div[2]/div/label/span
+${NTP_PAGE_DAYLIGHT_ST_TOOGLE_TEXT}             xpath=//*[@id="root"]/div[3]/div/div[4]/div[2]/div/div
 
 
 *** Keywords ***
-Access Side Menu Services
-    Click    ${SIDEMENU_SERVICES}
-
-Access Side Sub Menu NTP
-    Click    ${SIDESUB_MENU_NTP}
-
-NTP client form title should be
-    Get Text    
-    ...    ${NTP_PAGE_FORM_TITLE}    
-
-NTP client form subtitle should be
-    Get Text    
-    ...    ${NTP_PAGE_FORM_SUBTITLE}    
-
-Enable and Disable NTP Client Toggle
-    ${checked}    Get Checkbox State    ${NTP_PAGE_TOGGLE_ENABLE_CLIENT}
-    IF    '${checked}' == 'False'
-        Click    ${NTP_PAGE_TOGGLE_ENABLE_CLIENT_CLICKABLE}
-    ELSE IF    '${checked}' == 'True'
-        Click    ${NTP_PAGE_TOGGLE_ENABLE_CLIENT_CLICKABLE}
-    END
-    
-NTP Client toggle should be
-    Get checkbox state
-    ...    ${NTP_PAGE_TOGGLE_ENABLE_CLIENT}
-    ...    !=    checked
-    ...    
-NTP Client toggle text
-    Get Text    
-    ...    ${NTP_PAGE_TOGGLE_ENABLE_CLIENT_TEXT}   
-
-NTP Server 1 input title 
-    Get Text    
-    ...    ${NTP_PAGE_SERVER_1_INPUT_TITLE}    
-
-NTP Server 2 input title 
-    Get Text    
-    ...    ${NTP_PAGE_SERVER_2_INPUT_TITLE}    
-
-NTP Server 1 input should be enabled
-    Get Text    
-    ...    ${NTP_PAGE_SERVER_1_INPUT}   
-    ...    ==    
-    ...    a.ntp.br
-    ...    
-    Clear Text    
-    ...    ${NTP_PAGE_SERVER_1_INPUT}
-    Get attribute    
-    ...    ${NTP_PAGE_SERVER_1_INPUT}    
-    ...    something    
-    ...    evaluate    
-    ...    value is not None
-
-NTP Server 2 input should be enabled
-    Get Text    
-    ...    ${NTP_PAGE_SERVER_2_INPUT}   
-    ...    ==    
-    ...    b.ntp.br
-    ...    
-    Clear Text    
-    ...    ${NTP_PAGE_SERVER_2_INPUT}
-    Get attribute    
-    ...    ${NTP_PAGE_SERVER_2_INPUT}    
-    ...    something    
-    ...    evaluate    
-    ...    value is not None
-       
-NTP Server 1 input should be disabled
-    Get Attribute  
-    ...    ${NTP_PAGE_SERVER_1_INPUT}  
-    ...    disabled
-    Get Text   
-    ...    ${NTP_PAGE_SERVER_1_INPUT}  
-    ...    ==
-    ...    a.ntp.br
-
-NTP Server 2 input should be disabled
-    Get Attribute  
-    ...    ${NTP_PAGE_SERVER_2_INPUT}  
-    ...    disabled
-    Get Text   
-    ...    ${NTP_PAGE_SERVER_2_INPUT}  
-    ...    ==
-    ...    b.ntp.br
-
-Validation zone selection dropdown title
-    Get Text    
-        ...    ${NTP_PAGE_ZONE_SELECT_TITLE}    
-
-Validation zone selection dropdown enabled
-    ${elem_states}    Get element states    ${NTP_PAGE_ZONE_SELECT_OPTIONS_DROPDOWN}
-    IF    "hidden" in ${elem_states}
-        Click    ${NTP_PAGE_ZONE_SELECT}
-    END
-
-    Get Text  
-    ...    ${NTP_PAGE_ZONE_SELECT_OPTION_SP}       
-    ...    ==    
-    ...    (GMT-03:00) São Paulo
-    ...    
-    Get Text  
-    ...    ${NTP_PAGE_ZONE_SELECT_OPTION_BG}       
-    ...    ==    
-    ...    (GMT-05:00) Bogota
-    ...    
-    Get Text  
-    ...    ${NTP_PAGE_ZONE_SELECT_OPTION_MN}     
-    ...    ==    
-    ...    (GMT-04:00) Manaus
-    ...    
-    Get Text  
-    ...    ${NTP_PAGE_ZONE_SELECT_OPTION_FN}       
-    ...    ==    
-    ...    (GMT-02:00) Fernando de Noronha
-    
-Validation zone selection dropdown disabled
-    Get Text  
-    ...    ${NTP_PAGE_ZONE_SELECT_OPTION_SP}       
-    ...    ==    
-    ...    (GMT-03:00) São Paulo
-    
-Select Bogota Zone
-    Click    ${NTP_PAGE_ZONE_SELECT_OPTION_BG}
-
-Select Manaus Zone
-    Click    ${NTP_PAGE_ZONE_SELECT_OPTION_MN}
-
-Select São Paulo Zone
-    Click    ${NTP_PAGE_ZONE_SELECT_OPTION_SP}
-
-Select Fernando de Noronha Zone
-    Click    ${NTP_PAGE_ZONE_SELECT_OPTION_FN}
-
-Enable and Disable Daylight Savings Time Toggle NTP
-    ${checked}    Get Checkbox State    ${NTP_PAGE_TOGGLE_DST}
-    IF    '${checked}' == 'False'
-        Click    ${NTP_PAGE_TOGGLE_DST_CLICKABLE}
-    ELSE IF    '${checked}' == 'True'
-        Click    ${NTP_PAGE_TOGGLE_DST_CLICKABLE}
-    END
-
-DST toggle should be disabled
-    Get checkbox state
-    ...    ${NTP_PAGE_TOGGLE_DST}
-    ...    !=    checked
-   
-View state button save
-    Wait for elements state
-    ...    ${NTP_PAGE_SAVE_BUTTON}
+Access NTP service settings page
+    ${submenu_is_visible}    Run keyword and return status
+    ...    Get element states
+    ...    ${SIDEMENU_SERVICES_SUBMENU}
+    ...    contains
     ...    visible
+
+    IF    not ${submenu_is_visible}
+        Click    ${SIDEMENU_TOGGLE}
+        Wait for elements state
+        ...    ${SIDEMENU_SERVICES_SUBMENU}
+        ...    visible
+        ...    5s
+        ...    Services submenu was not visible (5 seconds timeout).
+    END
+
+    ${ntp_option_is_visible}    Run keyword and return status
+    ...    Get element states
+    ...    ${SIDEMENU_SERVICES_NTP}
+    ...    contains
+    ...    visible
+
+    IF    not ${ntp_option_is_visible}
+        Click    ${SIDEMENU_SERVICES_SUBMENU}
+        Wait for elements state
+        ...    ${SIDEMENU_SERVICES_NTP}
+        ...    visible
+        ...    5s
+        ...    NTP service submenu option was not visible (5 seconds timeout).
+    END
+
+    Click    ${SIDEMENU_SERVICES_NTP}
+
+    Wait for elements state
+    ...    ${NTP_PAGE_SAVE_SETTINGS_BUTTON}
+    ...    visible
+    ...    10s
+    ...    NTP page save settings button was not visible (10 seconds timeout).
+
+Page inner title should be "${text}"
+    Get text    ${NTP_PAGE_INNER_TITLE}    ==    ${text}
+
+Page inner subtitle should be "${text}"
+    ${str}    Get text    ${NTP_PAGE_INNER_SUBTITLE}
+    ${str_stripped}    Strip string    ${str}
+    Should be equal as strings    ${str_stripped}    ${text}
+
+NTP client toggle switch text should be "${text}"
+    Get text    ${NTP_PAGE_ENABLE_TOGGLE_TEXT}    ==    ${text}
+
+NTP client toggle switch should be on
+    Get checkbox state    ${NTP_PAGE_ENABLE_TOGGLE}    ==    checked
+    ...    NTP service should be enabled.
+
+Server 1 input title should be "${text}"
+    Get text    ${NTP_PAGE_SERVER_1_INPUT_TITLE}    ==    ${text}
+
+Server 1 should be "${text}"
+    Get text    ${NTP_PAGE_SERVER_1_INPUT}    ==    ${text}
+
+Server 1 input should be enabled
+    Get element states
+    ...    ${NTP_PAGE_SERVER_1_INPUT}
+    ...    contains
+    ...    enabled
+    ...    message=Server address 1 input should be enabled (editable).
+
+Server 2 input title should be "${text}"
+    Get text    ${NTP_PAGE_SERVER_2_INPUT_TITLE}    ==    ${text}
+
+Server 2 should be "${text}"
+    Get text    ${NTP_PAGE_server_2_INPUT}    ==    ${text}
+
+Server 2 input should be enabled
+    Get element states
+    ...    ${NTP_PAGE_SERVER_2_INPUT}
+    ...    contains
+    ...    enabled
+    ...    message=Server address 1 input should be enabled (editable).
+
+Timezone select option should be "${text}"
+    Get text    ${NTP_PAGE_TIMEZONE_SELECT}    ==    ${text}
+
+Daylight saving time toggle switch text should be "${text}"
+    Get text    ${NTP_PAGE_DAYLIGHT_ST_TOOGLE_TEXT}    ==    ${text}
+
+Daylight saving time toggle switch should be off
+    Get checkbox state    ${NTP_PAGE_DAYLIGHT_ST_TOGGLE}    ==    unchecked
+    ...    Daylight saving time should be disabled.
+
+Open timezone selection dropdown menu
+    ${elem_states}    Get element states    ${NTP_PAGE_TIMEZONE_SELECT_OPTIONS_DROPDOWN}
+    IF    "hidden" in ${elem_states}    Click    ${NTP_PAGE_TIMEZONE_SELECT}
+
+There should be "${number}" timezones available
+    Open timezone selection dropdown menu
+
+    ${timezones_elem_list}    Get elements    ${NTP_PAGE_TIMEZONE_SELECT_OPTIONS_DROPDOWN}/li
+    ${list_length}    Get length    ${timezones_elem_list}
+
+    Should be equal as integers
+    ...    ${list_length}
+    ...    ${number}
+    ...    msg=There should be ${number} timezones available, but there was ${list_length}.
+    ...    values=${false}
+
+Timezone "${text}" should be available
+    Open timezone selection dropdown menu
+    ${timezones_elem_list}    Get elements    ${NTP_PAGE_TIMEZONE_SELECT_OPTIONS_DROPDOWN}/li
+    FOR    ${timezone_elem}    IN    @{timezones_elem_list}
+        ${timezone_text}    Get text    ${timezone_elem}
+        IF    "${timezone_text}" == "${text}"
+            Click    ${timezone_elem}
+            Get element states
+            ...    ${NTP_PAGE_TIMEZONE_SELECT_OPTIONS_DROPDOWN}
+            ...    not contains
+            ...    visible
+            ...    message=Timezone dropdown did not automatically close upon selection.
+            RETURN
+        END
+    END
+    Fail    Timezone ${text} is not available.
