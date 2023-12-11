@@ -6,128 +6,66 @@ Resource            ../../../resources/pages/services/ntp.resource
 
 Suite Setup         Run keywords
 ...                     Setup browser    url=${DUT_LOGIN_WEBPAGE_URL}
-...                     AND    Login to DUT (Spanish)
-...                     AND    Go to DUT ntp webpage
+...                     AND    Login to DUT    language=spanish
+...                     AND    Access NTP service settings page
 Test Teardown       Run keyword if test failed
 ...                     Run keywords
 ...                     Clear browser storages
-...                     Login to DUT (Spanish)
-...                     Go to DUT ntp webpage
+...                     AND    Login to DUT    language=spanish
+...                     AND    Access NTP service settings page
 
-Force Tags          lang-es   ntp    smoke
+Force Tags          lang-es    ntp
 
 
 *** Test Cases ***
-NTP client service disable default
-    [Tags]    robot:continue-on-failure
-    NTP client form title should be
-        Get Text    
-        ...    ${NTP_PAGE_FORM_TITLE}    
-        ...    ==    
-        ...    Fecha y hora
-    NTP client form subtitle should be 
-        Get Text    
-        ...    ${NTP_PAGE_FORM_SUBTITLE}    
-        ...    ==    
-        ...    El dispositivo mantiene la hora correcta sincronizándose con servidores NTP\n
-        
-    Enable and Disable NTP Client Toggle
-    NTP Client toggle should be
-        Get checkbox state
-        ...    ${NTP_PAGE_TOGGLE_ENABLE_CLIENT}
-        ...    !=    checked
-        Get Text    
-        ...    ${NTP_PAGE_TOGGLE_ENABLE_CLIENT_TEXT}    
-        ...    ==    
-        ...    Habilitar cliente NTP
-        
-    NTP Server 1 input title
-        Get Text    
-        ...    ${NTP_PAGE_SERVER_1_INPUT_TITLE}    
-        ...    ==    
-        ...    Servidor NTP 1
-        
-    NTP Server 2 input title
-    Get Text    
-        ...    ${NTP_PAGE_SERVER_2_INPUT_TITLE}    
-        ...    ==    
-        ...    Servidor NTP 2
-        
-    NTP Server 1 input should be disabled
-    NTP Server 2 input should be disabled
+Factory default settings are correct
+    [Tags]    robot:continue-on-failure    smoke
+    Page inner title should be "Fecha y hora"
+    Page inner subtitle should be "El dispositivo mantiene la hora precisa mediante la sincronización con servidores NTP"
 
-    Validation zone selection dropdown title
-       Get Text    
-        ...    ${NTP_PAGE_ZONE_SELECT_TITLE}  
-        ...    ==
-        ...    Zona
-    Validation zone selection dropdown disabled
+    NTP client toggle switch text should be "Habilitar cliente NTP"
+    NTP client toggle switch should be on
 
-    DST toggle should be disabled
-        Get Text    
-        ...    ${NTP_PAGE_TOGGLE_DST_TEXT}    
-        ...    ==    
-        ...    Horario de verano
-        
-    View state button save
-        Get Text    
-        ...    ${NTP_PAGE_SAVE_BUTTON_TEXT}    
-        ...    ==    
-        ...    AHORRAR
+    Server 1 input title should be "Servidor NTP 1"
+    Server 1 input should be enabled
+    Server 1 should be "a.ntp.br"
 
-NTP client service enable default
-    [Tags]    robot:continue-on-failure
-    NTP client form title should be
-        Get Text    
-        ...    ${NTP_PAGE_FORM_TITLE}    
-        ...    ==    
-        ...    Fecha y hora
-    NTP client form subtitle should be 
-        Get Text    
-        ...    ${NTP_PAGE_FORM_SUBTITLE}    
-        ...    ==    
-        ...    El dispositivo mantiene la hora correcta sincronizándose con servidores NTP\n
-        
-    Enable and Disable NTP Client Toggle
-    NTP Client toggle should be
-        Get checkbox state
-        ...    ${NTP_PAGE_TOGGLE_ENABLE_CLIENT}
-        ...    !=    checked
-        Get Text    
-        ...    ${NTP_PAGE_TOGGLE_ENABLE_CLIENT_TEXT}    
-        ...    ==    
-        ...    Habilitar cliente NTP
-        
-    NTP Server 1 input title
-        Get Text    
-        ...    ${NTP_PAGE_SERVER_1_INPUT_TITLE}    
-        ...    ==    
-        ...    Servidor NTP 1
-        
-    NTP Server 2 input title
-    Get Text    
-        ...    ${NTP_PAGE_SERVER_2_INPUT_TITLE}    
-        ...    ==    
-        ...    Servidor NTP 2
-        ...    
-    NTP Server 1 input should be enabled
-    NTP Server 2 input should be enabled
+    Server 2 input title should be "Servidor NTP 2"
+    Server 2 input should be enabled
+    Server 2 should be "b.ntp.br"
 
-    Validation zone selection dropdown title
-       Get Text    
-        ...    ${NTP_PAGE_ZONE_SELECT_TITLE}  
-        ...    ==
-        ...    Zona
-    Validation zone selection dropdown enabled
+    Timezone select option should be "(GMT-03:00) São Paulo"
 
-    DST toggle should be disabled
-        Get Text    
-        ...    ${NTP_PAGE_TOGGLE_DST_TEXT}    
-        ...    ==    
-        ...    Horario de verano
-        
-    View state button save
-        Get Text    
-        ...    ${NTP_PAGE_SAVE_BUTTON_TEXT}    
-        ...    ==    
-        ...    AHORRAR
+    Daylight saving time toggle switch text should be "Horario de verano"
+    Daylight saving time toggle switch should be off
+
+    Save settings button text should be "GUARDAR"
+
+Four timezones are available: Bogotá, Manaus, São Paulo and Fernando de Noronha
+    [Tags]    robot:continue-on-failure    smoke
+    There should be "4" timezones available
+    Timezone "(GMT-05:00) Bogota" should be available
+    Timezone "(GMT-04:00) Manaus" should be available
+    Timezone "(GMT-03:00) São Paulo" should be available
+    Timezone "(GMT-02:00) Fernando de Noronha" should be available
+
+Validate form interaction after disabling NTP client
+    [Tags]    robot:continue-on-failure    smoke
+    Open timezone selection dropdown menu
+    Select timezone "(GMT-04:00) Manaus"
+
+    Enable daylight saving time
+
+    Disable NTP client
+
+    Server 1 input should be disabled
+    Server 1 should be "a.ntp.br"
+
+    Server 2 input should be disabled
+    Server 2 should be "b.ntp.br"
+
+    Timezone select option should be "(GMT-04:00) Manaus"
+    Timezone select should be disabled
+
+    Daylight saving time toggle switch should be on
+    Daylight saving time toggle switch should be disabled

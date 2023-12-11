@@ -14,13 +14,13 @@ Test Teardown       Run keyword if test failed
 ...                     AND    Login to DUT    language=portuguese
 ...                     AND    Access NTP service settings page
 
-Force Tags          lang-pt    ntp    wip
+Force Tags          lang-pt    ntp
 
 
 *** Test Cases ***
 Factory default settings are correct
     [Tags]    robot:continue-on-failure    smoke
-    Page inner title should be "Data e Hora"
+    Page inner title should be "Data e hora"
     Page inner subtitle should be "O dispositivo mantém a hora certa a partir da sincronização com servidores NTP"
 
     NTP client toggle switch text should be "Habilitar cliente NTP"
@@ -38,6 +38,8 @@ Factory default settings are correct
 
     Daylight saving time toggle switch text should be "Horário de verão"
     Daylight saving time toggle switch should be off
+
+    Save settings button text should be "SALVAR"
 
 Four timezones are available: Bogotá, Manaus, São Paulo and Fernando de Noronha
     [Tags]    robot:continue-on-failure    smoke

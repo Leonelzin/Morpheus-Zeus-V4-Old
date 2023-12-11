@@ -221,3 +221,6 @@ Enable daylight saving time
         Click    ${NTP_PAGE_DAYLIGHT_ST_TOGGLE_CLICKABLE}
     END
     Wait for elements state    ${NTP_PAGE_DAYLIGHT_ST_TOGGLE}    checked
+
+Save settings button text should be "${text}"
+    Get text    ${NTP_PAGE_SAVE_SETTINGS_BUTTON}    ==    ${text}
