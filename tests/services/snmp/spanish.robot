@@ -6,149 +6,65 @@ Resource            ../../../resources/pages/services/snmp.resource
 
 Suite Setup         Run keywords
 ...                     Setup browser    url=${DUT_LOGIN_WEBPAGE_URL}
-...                     AND    Login to DUT (Spanish)
+...                     AND    Login to DUT    language=spanish
+...                     AND    Access SNMP service settings page
 Test Teardown       Run keyword if test failed
 ...                     Run keywords
 ...                     Clear browser storages
-...                     Login to DUT (Spanish)
+...                     AND    Login to DUT    language=spanish
+...                     AND    Access SNMP service settings page
 
-Force Tags          lang-es   snmp    smoke
+Force Tags          lang-pt    snmp    wip
 
 
 *** Test Cases ***
-SNMP default service (router)
-    [Tags]    robot:continue-on-failure
-    
-    DUT in router mode
-    Go to DUT snmp webpage
+Factory default settings are correct
+    [Tags]    robot:continue-on-failure    smoke
+    Page inner title should be "SNMP"
+    Page inner subtitle should be "Protocolo estándar para monitorear y gestionar dispositivos de red"
 
-    SNMP client form title should be
-        Get Text    
-        ...    ${SNMP_PAGE_FORM_TITLE}    
-        ...    ==    
-        ...    SNMP
-    SNMP client form subtitle should be 
-        Get Text    
-        ...    ${SNMP_PAGE_FORM_SUBTITLE}   
-        ...    ==    
-        ...    Protocolo simple de administración de red para administrar dispositivos en redes IP\n
-    
-    SNMP Client toggle should be
-    SNMP Client toggle text
-        Get Text    
-        ...    ${SNMP_PAGE_TOGGLE_ENABLE_CLIENT_TEXT}    
-        ...    ==    
-        ...    Habilitar SNMP
+    SNMP toggle switch text should be "Habilitar SNMP"
+    SNMP toggle switch should be off
 
-    SNMP Access WAN toggle should be
-    SNMP Access WAN toggle text
-        Get Text    
-        ...    ${SNMP_PAGE_TOGGLE_ACCESS_WAN_TEXT}    
-        ...    ==    
-        ...    Acceso a través de WAN
+    Community input title should be "Comunidad"
+    Community input should be disabled
+    Community should be "public"
 
-    SNMP Community input title 
-        Get Text    
-        ...    ${SNMP_PAGE_COMMUNITY_INPUT_TITLE}    
-        ...    ==    
-        ...    Comunidad
-    SNMP Community input should be enabled
+    Port input title should be "Puerto"
+    Port input should be disabled
+    Port should be "161"
 
-    SNMP Port input title 
-        Get Text    
-        ...    ${SNMP_PAGE_PORT_INPUT_TITLE}    
-        ...    ==    
-        ...    Puerto SNMP
-    SNMP Port input should be enabled
+    Location input title should be "Ubicación"
+    Location input should be disabled
+    Location should be "Intelbras - SC - Brasil"
 
-    SNMP Location input title 
-        Get Text    
-        ...    ${SNMP_PAGE_LOCATION_INPUT_TITLE}    
-        ...    ==
-        ...    Ubicación
-    SNMP Location input should be enabled
+    Contact input title should be "Contacto"
+    Contact input should be disabled
+    Contact should be "admin@meu_dominio.com.br"
 
-    SNMP Contact input title 
-        Get Text    
-        ...    ${SNMP_PAGE_CONTACT_INPUT_TITLE}    
-        ...    ==    
-        ...    Contacto
-    SNMP Contact input should be enabled
+    Name input title should be "Nombre"
+    Name input should be disabled
+    ${dut_model_name}    fiber.Get DUT model name
+    Name should be "${dut_model_name}"
 
-    SNMP Name input title 
-        Get Text    
-        ...    ${SNMP_PAGE_NAME_INPUT_TITLE}    
-        ...    ==    
-        ...    Nombre
-    SNMP Name input should be enabled
+    Save settings button text should be "GUARDAR"
 
-    View state snmp button save
-        Get Text    
-        ...    ${SNMP_PAGE_SAVE_BUTTON}    
-        ...    ==    
-        ...    AHORRAR
+Validate form interaction after enabling SNMP
+    [Tags]    robot:continue-on-failure    smoke
+    Enable SNMP
 
-SNMP default service (bridge)
-    [Tags]    robot:continue-on-failure
+    Community input should be enabled
+    Community should be "public"
 
-    DUT in bridge mode
-    Go to DUT snmp webpage
+    Port input should be enabled
+    Port should be "161"
 
-    SNMP client form title should be
-        Get Text    
-        ...    ${SNMP_PAGE_FORM_TITLE}    
-        ...    ==    
-        ...    SNMP
-    SNMP client form subtitle should be 
-        Get Text    
-        ...    ${SNMP_PAGE_FORM_SUBTITLE}   
-        ...    ==    
-        ...    Protocolo simple de administración de red para administrar dispositivos en redes IP\n
-    
-    SNMP Client toggle should be
-    SNMP Client toggle text
-        Get Text    
-        ...    ${SNMP_PAGE_TOGGLE_ENABLE_CLIENT_TEXT}    
-        ...    ==    
-        ...    Habilitar SNMP
-        
-    SNMP Community input title 
-        Get Text    
-        ...    ${SNMP_PAGE_COMMUNITY_INPUT_TITLE}    
-        ...    ==    
-        ...    Comunidad
-    SNMP Community input should be enabled
+    Location input should be enabled
+    Location should be "Intelbras - SC - Brasil"
 
-    SNMP Port input title 
-        Get Text    
-        ...    ${SNMP_PAGE_PORT_INPUT_TITLE}    
-        ...    ==    
-        ...    Puerto SNMP
-    SNMP Port input should be enabled
+    Contact input should be enabled
+    Contact should be "admin@meu_dominio.com.br"
 
-    SNMP Location input title 
-        Get Text    
-        ...    ${SNMP_PAGE_LOCATION_INPUT_TITLE}    
-        ...    ==    
-        ...    Ubicación
-    SNMP Location input should be enabled
-
-    SNMP Contact input title 
-        Get Text    
-        ...    ${SNMP_PAGE_CONTACT_INPUT_TITLE}    
-        ...    ==    
-        ...    Contacto
-    SNMP Contact input should be enabled
-
-    SNMP Name input title 
-        Get Text    
-        ...    ${SNMP_PAGE_NAME_INPUT_TITLE}    
-        ...    ==    
-        ...    Nombre
-    SNMP Name input should be enabled
-
-    View state snmp button save
-        Get Text    
-        ...    ${SNMP_PAGE_SAVE_BUTTON}    
-        ...    ==    
-        ...    AHORRAR
+    Name input should be enabled
+    ${dut_model_name}    fiber.Get DUT model name
+    Name should be "${dut_model_name}"
