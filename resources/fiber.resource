@@ -153,3 +153,13 @@ Change DUT first access password
 Change DUT first access password if it has not been changed
     ${password_changed}    DUT first access password has been changed
     IF    not ${password_changed}    Change DUT first access password
+
+Get DUT model name
+    ${token}    Get API authorization token
+    ${headers}    Create dictionary    Authorization=Token ${token}
+    ${response}    GET
+    ...    ${DUT_MGMT_URL}/cgi-bin/api/v4/system/brief
+    ...    headers=${headers}
+    ...    timeout=${HTTP_REQUEST_TIMEOUT_SECONDS}
+
+    RETURN    ${response.json()}[model]
