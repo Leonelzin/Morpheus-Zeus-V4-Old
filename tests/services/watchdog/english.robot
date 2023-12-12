@@ -29,6 +29,7 @@ Factory default settings are correct
     Address 1 input title should be "Address 1"
     Address 1 input should be disabled
     Address 1 should be "192.168.1.1"
+
     Address 2 input title should be "Address 2"
     Address 2 input should be disabled
     Address 2 should be ""
