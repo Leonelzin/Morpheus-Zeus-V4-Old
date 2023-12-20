@@ -355,10 +355,10 @@ First access login form should be in Spanish
     ...    Intelbras © 2023 - Privacidad - Términos
 
 Error message "${msg}" is displayed for password input
-    Get text    xpath=//*[@id="first-login"]/div[2]/div/div[2]    ==    ${msg}
+    Get text    xpath=//*[@id="first-login"]/div[2]/div/div[3]    ==    ${msg}
 
 Error message "${msg}" is displayed for password confirmation input
-    Get text    xpath=//*[@id="first-login"]/div[4]/div/div[2]    ==    ${msg}
+    Get text    xpath=//*[@id="first-login"]/div[4]/div/div[3]    ==    ${msg}
 
 Error message "${msg}" is displayed for privacy and terms toggle switch
     Get text    xpath=//*[@id="first-login"]/div[5]    ==    ${msg}

@@ -22,6 +22,6 @@ Force Tags          lang-es    login    first-access    smoke
 
 *** Test Cases ***
 Login form text is correct when chosen language is Spanish
-    Open language selection dropdown menu
-    Select Spanish language
+    first_access.Open language selection dropdown menu
+    first_access.Select Spanish language
     First access login form should be in Spanish

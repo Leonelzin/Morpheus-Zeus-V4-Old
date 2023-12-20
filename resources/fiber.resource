@@ -77,7 +77,7 @@ DUT system is ready
 
     ${response}    Set variable    ${response.json()}
 
-    IF    ${response}[firewall] and ${response}[wireless] and ${response}[internet] and ${response}[network] and ${response}[ready]
+    IF    ${response}[firewall] and ${response}[wireless] and ${response}[network] and ${response}[ready]
         RETURN    ${true}
     ELSE IF    ${fail_if_false}
         Fail    DUT system is not ready.

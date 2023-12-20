@@ -22,6 +22,6 @@ Force Tags          lang-en    login    first-access    smoke
 
 *** Test Cases ***
 Login form text is correct when chosen language is English
-    Open language selection dropdown menu
-    Select English language
+    first_access.Open language selection dropdown menu
+    first_access.Select English language
     First access login form should be in English

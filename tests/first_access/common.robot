@@ -29,11 +29,11 @@ Default language is Portuguese
 
 Username is admin and not editable
     first_access.Username input should be "admin"
-    Username input should be disabled
+    first_access.Username input should be disabled
 
 Password and confirmation password are empty by default
-    Password input should be "${empty}"
-    Password confirmation input should be "${empty}"
+    first_access.Password input should be "${empty}"
+    first_access.Password confirmation input should be "${empty}"
 
 Privacy policy and terms of use are not accepted by default
     Privacy policy and terms of use should not be accepted
@@ -45,8 +45,9 @@ Dashboard is displayed after first access login
     ...    password and then other tests that must navigate to the first access
     ...    login webpage will fail since the user will be automatically
     ...    redirected to dashboard webpage after logging in.
-    Enter password "${DUT_MGMT_PASSWORD}"
-    Enter password confirmation "${DUT_MGMT_PASSWORD}"
+
+    first_access.Enter password "${DUT_MGMT_PASSWORD}"
+    first_access.Enter password confirmation "${DUT_MGMT_PASSWORD}"
     Accept privacy policy and terms of use
     first_access.Click login button
     Wait until dashboard webpage is displayed

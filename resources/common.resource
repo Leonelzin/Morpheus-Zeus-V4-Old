@@ -17,7 +17,8 @@ ${DUT_MGMT_HTTP_PROTOCOL}               http
 ${DUT_MGMT_URL}                         ${DUT_MGMT_HTTP_PROTOCOL}://${DUT_MGMT_IPV4_ADDRESS}:${DUT_MGMT_HTTP_PORT}
 ${DUT_MGMT_USER}                        admin
 ${DUT_MGMT_PASSWORD}                    M0rpheus01!
-${DUT_MGMT_FIRST_ACCESS_PASSWORD}       kH9N$UwP
+# ${DUT_MGMT_FIRST_ACCESS_PASSWORD}    kH9N$UwP
+${DUT_MGMT_FIRST_ACCESS_PASSWORD}       lockzeus
 
 # DUT PAGES
 ${DUT_LOGIN_WEBPAGE_URL}                ${DUT_MGMT_URL}/login

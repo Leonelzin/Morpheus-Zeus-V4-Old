@@ -14,7 +14,7 @@ Test Teardown       Run keyword if test failed
 ...                     AND    Login to DUT    language=english
 ...                     AND    Access SNMP service settings page
 
-Force Tags          lang-pt    snmp
+Force Tags          lang-en    snmp
 
 
 *** Test Cases ***

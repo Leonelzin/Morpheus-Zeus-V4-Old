@@ -37,16 +37,16 @@ Terms of use text is accessible and displayed in Portuguese by default
 
 Error message: login with all fields empty
     first_access.Click login button
-    Enter password "${empty}"
-    Enter password confirmation "${empty}"
+    first_access.Enter password "${empty}"
+    first_access.Enter password confirmation "${empty}"
     Unaccept privacy policy and terms of use
     Error message "Senha obrigatória" is displayed for password input
     Error message "Senha obrigatória" is displayed for password confirmation input
     Error message "É necessário aceitar os termos" is displayed for privacy and terms toggle switch
 
 Error message: first access login without providing password and password confirmation
-    Enter password "${empty}"
-    Enter password confirmation "${empty}"
+    first_access.Enter password "${empty}"
+    first_access.Enter password confirmation "${empty}"
     Accept privacy policy and terms of use
     first_access.Click login button
     Error message "Senha obrigatória" is displayed for password input
@@ -54,24 +54,24 @@ Error message: first access login without providing password and password confir
     # TODO: check that no other error messages are shown
 
 Error message: first access login without providing password confirmation
-    Enter password "${DUT_MGMT_PASSWORD}"
-    Enter password confirmation "${empty}"
+    first_access.Enter password "${DUT_MGMT_PASSWORD}"
+    first_access.Enter password confirmation "${empty}"
     Accept privacy policy and terms of use
     first_access.Click login button
     Error message "Senha obrigatória" is displayed for password confirmation input
     # TODO: check that no other error messages are shown
 
 Error message: first access login without providing password
-    Enter password "${empty}"
-    Enter password confirmation "${DUT_MGMT_PASSWORD}"
+    first_access.Enter password "${empty}"
+    first_access.Enter password confirmation "${DUT_MGMT_PASSWORD}"
     Accept privacy policy and terms of use
     first_access.Click login button
     Error message "Senha obrigatória" is displayed for password input
     # TODO: check that no other error messages are shown
 
 Error message: login without accepting the privacy policy and terms of use
-    Enter password "${DUT_MGMT_PASSWORD}"
-    Enter password confirmation "${DUT_MGMT_PASSWORD}"
+    first_access.Enter password "${DUT_MGMT_PASSWORD}"
+    first_access.Enter password confirmation "${DUT_MGMT_PASSWORD}"
     Unaccept privacy policy and terms of use
     first_access.Click login button
     Error message "É necessário aceitar os termos" is displayed for privacy and terms toggle switch

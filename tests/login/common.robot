@@ -27,6 +27,7 @@ Username and password are empty by default
     Password input should be "${empty}"
 
 First access webpage is displayed after first access login
+    [Tags]    first-access
     [Setup]    fiber.Reset DUT settings to factory default if first access password has been changed
     Enter username "${DUT_MGMT_USER}"
     Enter password "${DUT_MGMT_FIRST_ACCESS_PASSWORD}"
