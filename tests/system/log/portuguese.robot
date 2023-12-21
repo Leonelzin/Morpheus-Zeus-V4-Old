@@ -1,4 +1,5 @@
 *** Settings ***
+Library             OperatingSystem
 Library             Browser
 Resource            ../../../resources/common.resource
 Resource            ../../../resources/pages/system/log.resource
@@ -52,3 +53,9 @@ Validate form interaction after enabling watchdog service
     Enable remote logging
     Remote server input should be enabled
     Port input should be enabled
+
+Export system log
+    ${dl_promise}    Promise to wait for download    ${OUTPUT_DIR}/downloads/log.txt
+    Click    ${LOG_PAGE_EXPORT_LOG_BUTTON}
+    ${file_obj}    Wait For    ${dl_promise}
+    File should exist    ${file_obj}[saveAs]

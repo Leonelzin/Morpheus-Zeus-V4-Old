@@ -32,6 +32,8 @@ ${LOG_PAGE_REMOTE_SERVER_INPUT}                         xpath=//*[@id="root"]/di
 ${LOG_PAGE_PORT_INPUT_TITLE}                            xpath=//*[@id="root"]/div[3]/div/div[2]/div[4]
 ${LOG_PAGE_PORT_INPUT}                                  xpath=//*[@id="root"]/div[3]/div/div[2]/div[4]/input
 
+${LOG_PAGE_EXPORT_LOG_BUTTON}                           xpath=//*[@id="root"]/div[3]/div/div[5]/button
+
 ${LOG_PAGE_SAVE_SETTINGS_BUTTON}                        xpath=//*[@id="root"]/div[3]/div/div[3]/button
 
 
