@@ -7,41 +7,47 @@ Resource            ../../../resources/pages/network/operation_mode.resource
 Suite Setup         Run keywords
 ...                     Setup browser    url=${DUT_LOGIN_WEBPAGE_URL}
 ...                     AND    Login to DUT    language=english
-...                     AND    Access Operation Mode network settings page
+...                     AND    Access network operation mode settings page
 Test Teardown       Run keyword if test failed
 ...                     Run keywords
 ...                     Clear browser storages
 ...                     AND    Login to DUT    language=english
-...                     AND    Access Operation Mode network settings page
+...                     AND    Access network operation mode settings page
 
-Force Tags          lang-en    operation-mode
+Force Tags          lang-en    network    opmode    operation-mode
 
 
 *** Test Cases ***
 Factory default settings are correct
     [Tags]    robot:continue-on-failure    smoke
+    ${dut_hostname}    fiber.Get DUT hostname
+
     Page inner title should be "Operation mode"
     Page inner subtitle should be "Bridge: interconnects all network interfaces, single IP address.\nRouter: operates as an access point, managing IP addresses."
 
-    ${str}    Get Text    xpath=/html/body/div/div[3]/div/div[2]/div 
-    @{str_list}    Split String    ${str}    \n
-    Log To Console    ${str_list}
-    Log To Console    ${str_list}[0]
-    Equipment name input should be enabled 
-    Equipment name should be "ap1800ax"
- 
-    Network operation select title should be "Network operation"
-    Network operation select option should be "Bridge"
+    Equipment name input title should be "Equipment name"
+    Equipment name input should be enabled
+    Equipment name should be "${dut_hostname}"
+
+    Network operation mode select title should be "Operation mode"
+    Network operation mode select option should be "Bridge"
 
     Save settings button text should be "SAVE"
+    [Teardown]    No operation
 
-Two Network operation are available: Bridge and Router
+Two network operation modes are available: bridge and router
     [Tags]    robot:continue-on-failure    smoke
-    There should be "2" network operation available
-    Network Operation "Bridge" should be available
-    Network Operation "Router" should be available
+    There should be "2" network operation modes available
+    Network operation mode "Bridge" should be available
+    Network operation mode "Router" should be available
 
-Validate form interaction after select network operation
-    [Tags]    robot:continue-on-failure    smoke
-    Operation NAT toggle switch text should be "Enable NAT"
-    Operation NAT toggle switch should be on
+NAT option is visible only when network operation mode is router
+    [Tags]    smoke
+    Select network operation mode "Router"
+    NAT enable toggle should be visible
+    NAT enable toggle switch text should be "Enable NAT"
+    NAT enable toggle switch should be on
+
+    Select network operation mode "Bridge"
+    NAT enable toggle should not be visible
+    [Teardown]    No operation

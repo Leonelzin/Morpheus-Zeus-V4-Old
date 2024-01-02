@@ -7,41 +7,47 @@ Resource            ../../../resources/pages/network/operation_mode.resource
 Suite Setup         Run keywords
 ...                     Setup browser    url=${DUT_LOGIN_WEBPAGE_URL}
 ...                     AND    Login to DUT    language=spanish
-...                     AND    Access Operation Mode network settings page
+...                     AND    Access network operation mode settings page
 Test Teardown       Run keyword if test failed
 ...                     Run keywords
 ...                     Clear browser storages
 ...                     AND    Login to DUT    language=spanish
-...                     AND    Access Operation Mode network settings page
+...                     AND    Access network operation mode settings page
 
-Force Tags          lang-es    operation-mode
+Force Tags          lang-es    network    opmode    operation-mode
 
 
 *** Test Cases ***
 Factory default settings are correct
     [Tags]    robot:continue-on-failure    smoke
+    ${dut_hostname}    fiber.Get DUT hostname
+
     Page inner title should be "Modo de operación"
     Page inner subtitle should be "Puente: interconecta todas las interfaces de red, dirección IP única.\nEnrutador: opera como punto de acceso, administrando direcciones IP."
 
-    ${str}    Get Text    xpath=/html/body/div/div[3]/div/div[2]/div 
-    @{str_list}    Split String    ${str}    \n
-    Log To Console    ${str_list}
-    Log To Console    ${str_list}[0]
-    Equipment name input should be enabled 
-    Equipment name should be "ap1800ax"
- 
-    Network operation select title should be "Modo de operación"
-    Network operation select option should be "Puente"
+    Equipment name input title should be "Nombre del equipo"
+    Equipment name input should be enabled
+    Equipment name should be "${dut_hostname}"
 
-    Save settings button text should be "AHORRAR"
+    Network operation mode select title should be "Modo de operación"
+    Network operation mode select option should be "Puente"
 
-Two Network operation are available: Bridge and Router
+    Save settings button text should be "GUARDAR"
+    [Teardown]    No operation
+
+Two network operation modes are available: bridge and router
     [Tags]    robot:continue-on-failure    smoke
-    There should be "2" network operation available
-    Network Operation "Puente" should be available
-    Network Operation "Enrutador" should be available
+    There should be "2" network operation modes available
+    Network operation mode "Puente" should be available
+    Network operation mode "Enrutador" should be available
 
-Validate form interaction after select network operation
-    [Tags]    robot:continue-on-failure    smoke
-    Operation NAT toggle switch text should be "Habilitar NAT"
-    Operation NAT toggle switch should be on
+NAT option is visible only when network operation mode is router
+    [Tags]    smoke
+    Select network operation mode "Enrutador"
+    NAT enable toggle should be visible
+    NAT enable toggle switch text should be "Habilitar NAT"
+    NAT enable toggle switch should be on
+
+    Select network operation mode "Puente"
+    NAT enable toggle should not be visible
+    [Teardown]    No operation
