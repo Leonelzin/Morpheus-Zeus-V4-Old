@@ -55,6 +55,7 @@ Validate form interaction after enabling watchdog service
     Port input should be enabled
 
 Export system log
+    [Tags]    smoke
     ${dl_promise}    Promise to wait for download    ${OUTPUT_DIR}/downloads/log.txt
     Click    ${LOG_PAGE_EXPORT_LOG_BUTTON}
     ${file_obj}    Wait For    ${dl_promise}
