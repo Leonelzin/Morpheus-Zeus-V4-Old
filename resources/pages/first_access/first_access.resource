@@ -27,10 +27,12 @@ ${FIRST_ACCESS_PAGE_USERNAME_INPUT}                             xpath=//*[@id="i
 
 ${FIRST_ACCESS_PAGE_PASSWORD_TITLE}                             xpath=//*[@id="first-login"]/div[2]/div
 ${FIRST_ACCESS_PAGE_PASSWORD_INPUT}                             xpath=//*[@id="password"]
+${FIRST_ACCESS_PAGE_PASSWORD_INPUT_REVEAL_ICON}                 xpath=//*[@id="first-login"]/div[2]/div/div[2]/span[2]
 ${FIRST_ACCESS_PAGE_PASSWORD_RULES_HELP_TEXT}                   xpath=//*[@id="first-login"]/div[3]
 
 ${FIRST_ACCESS_PAGE_CONFIRM_PASSWORD_TITLE}                     xpath=//*[@id="first-login"]/div[4]/div
 ${FIRST_ACCESS_PAGE_CONFIRM_PASSWORD_INPUT}                     xpath=//*[@id="confirm_password"]
+${FIRST_ACCESS_PAGE_CONFIRM_PASSWORD_INPUT_REVEAL_ICON}         xpath=//*[@id="first-login"]/div[4]/div/div[2]/span[2]
 
 ${FIRST_ACCESS_PAGE_ACCEPT_TERMS_TOGGLE}                        xpath=//*[@id="terms"]
 ${FIRST_ACCESS_PAGE_ACCEPT_TERMS_TOGGLE_CLICKABLE}              xpath=//*[@id="first-login"]/label/span
@@ -96,8 +98,20 @@ Enter password confirmation "${confirmation_password}"
 Password input should be "${password}"
     Get text    ${FIRST_ACCESS_PAGE_PASSWORD_INPUT}    ==    ${password}
 
+Password text should be hidden
+    Get attribute    ${FIRST_ACCESS_PAGE_PASSWORD_INPUT}    type    ==    password
+
+Password text should not be hidden
+    Get attribute    ${FIRST_ACCESS_PAGE_PASSWORD_INPUT}    type    ==    text
+
 Password confirmation input should be "${password}"
     Get text    ${FIRST_ACCESS_PAGE_CONFIRM_PASSWORD_INPUT}    ==    ${password}
+
+Password confirmation text should be hidden
+    Get attribute    ${FIRST_ACCESS_PAGE_CONFIRM_PASSWORD_INPUT}    type    ==    password
+
+Password confirmation text should not be hidden
+    Get attribute    ${FIRST_ACCESS_PAGE_CONFIRM_PASSWORD_INPUT}    type    ==    text
 
 Accept Privacy Policy and Terms of Use
     ${checked}    Get checkbox state    ${FIRST_ACCESS_PAGE_ACCEPT_TERMS_TOGGLE}

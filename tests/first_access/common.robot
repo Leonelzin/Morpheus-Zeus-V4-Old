@@ -23,20 +23,41 @@ Force Tags          lang-pt    login    first-access    smoke
 *** Test Cases ***
 Advertising banner is displayed
     first_access.Advertising banner should be displayed
+    [Teardown]    No operation
 
 Default language is Portuguese
     First access login form should be in Portuguese
+    [Teardown]    No operation
 
 Username is admin and not editable
     first_access.Username input should be "admin"
     first_access.Username input should be disabled
+    [Teardown]    No operation
 
 Password and confirmation password are empty by default
     first_access.Password input should be "${empty}"
     first_access.Password confirmation input should be "${empty}"
+    [Teardown]    No operation
+
+Password reveal
+    first_access.Enter password "${DUT_MGMT_PASSWORD}"
+    first_access.Password text should be hidden
+    Click    ${FIRST_ACCESS_PAGE_PASSWORD_INPUT_REVEAL_ICON}
+    first_access.Password text should not be hidden
+    first_access.Password input should be "${DUT_MGMT_PASSWORD}"
+    [Teardown]    No operation
+
+Password confirmation reveal
+    first_access.Enter password confirmation "${DUT_MGMT_PASSWORD}"
+    first_access.Password confirmation text should be hidden
+    Click    ${FIRST_ACCESS_PAGE_CONFIRM_PASSWORD_INPUT_REVEAL_ICON}
+    first_access.Password confirmation text should not be hidden
+    first_access.Password confirmation input should be "${DUT_MGMT_PASSWORD}"
+    [Teardown]    No operation
 
 Privacy policy and terms of use are not accepted by default
     Privacy policy and terms of use should not be accepted
+    [Teardown]    No operation
 
 Dashboard is displayed after first access login
     [Documentation]

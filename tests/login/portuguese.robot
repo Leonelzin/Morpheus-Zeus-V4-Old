@@ -18,6 +18,7 @@ Force Tags          lang-pt    login    smoke
 *** Test Cases ***
 Advertising banner is displayed
     Advertising banner should be displayed
+    [Teardown]    No operation
 
 Default language is Portuguese
     Login form should be in Portuguese
@@ -25,6 +26,15 @@ Default language is Portuguese
 Username and password are empty by default
     Username input should be "${empty}"
     Password input should be "${empty}"
+    [Teardown]    No operation
+
+Password reveal
+    Enter password "${DUT_MGMT_PASSWORD}"
+    Password text should be hidden
+    Click    ${LOGIN_PAGE_PASSWORD_INPUT_REVEAL_ICON}
+    Password text should not be hidden
+    Password input should be "${DUT_MGMT_PASSWORD}"
+    [Teardown]    No operation
 
 First access webpage is displayed after first access login
     [Tags]    first-access

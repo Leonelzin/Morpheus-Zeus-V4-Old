@@ -17,6 +17,7 @@ ${LOGIN_PAGE_USERNAME_INPUT_TITLE}                      xpath=//*[@id="login-for
 ${LOGIN_PAGE_USERNAME_INPUT}                            id=login
 ${LOGIN_PAGE_PASSWORD_INPUT_TITLE}                      xpath=//*[@id="login-form"]/div[2]/div
 ${LOGIN_PAGE_PASSWORD_INPUT}                            id=password
+${LOGIN_PAGE_PASSWORD_INPUT_REVEAL_ICON}                xpath=//*[@id="login-form"]/div[2]/div/div[2]/span[2]
 ${LOGIN_PAGE_LOGIN_BUTTON}                              id=submitBtn
 
 ${LOGIN_PAGE_LANGUAGE_SELECT_TITLE}                     xpath=//*[@id="root"]/div[2]/div[2]/div/div/div/div
@@ -64,6 +65,12 @@ Username input should be "${username}"
 Password input should be "${password}"
     Get text    ${LOGIN_PAGE_PASSWORD_INPUT}    ==    ${password}
 
+Password text should be hidden
+    Get attribute    ${LOGIN_PAGE_PASSWORD_INPUT}    type    ==    password
+
+Password text should not be hidden
+    Get attribute    ${LOGIN_PAGE_PASSWORD_INPUT}    type    ==    text
+
 Enter username "${username}"
     Type text    ${LOGIN_PAGE_USERNAME_INPUT}    ${username}
 
@@ -83,9 +90,7 @@ Dashboard webpage should be displayed
 
 Open language selection dropdown menu
     ${elem_states}    Get element states    ${LOGIN_PAGE_LANGUAGE_SELECT_OPTIONS_DROPDOWN}
-    IF    "hidden" in ${elem_states}
-        Click    ${LOGIN_PAGE_LANGUAGE_SELECT} 
-    END
+    IF    "hidden" in ${elem_states}    Click    ${LOGIN_PAGE_LANGUAGE_SELECT}
 
 Select English language
     Click    ${LOGIN_PAGE_LANGUAGE_SELECT_OPTION_EN}
