@@ -1,9 +1,7 @@
 *** Settings ***
 Library     Browser
 Library     ../libraries/ImageCompareLibrary.py
-Resource    fiber.resource
 Resource    ../resources/pages/login/login.resource
-Resource    ../resources/pages/network/operation_mode.resource
 
 
 *** Variables ***
@@ -128,38 +126,3 @@ Side menu is opened
     ...    xpath=//*[@id="sidebar-options-menu"]/div[1]/div/div/div/div
     ...    contains
     ...    visible
-
-##################
-#    DUT MODE    #
-##################
-
-DUT in bridge mode
-    Go to    ${DUT_OPERATION_MODE_WEBPAGE_URL}
-    Wait until network is idle
-    Select bridge operating mode
-
-DUT in router mode
-    Go to    ${DUT_OPERATION_MODE_WEBPAGE_URL}
-    Wait until network is idle
-    Select router operating mode
-
-##################
-#    Watchdog    #
-##################
-
-Go to DUT watchdog webpage
-    Go to    ${DUT_WATCHDOG_WEBPAGE_URL}
-
-#############
-#    NTP    #
-#############
-
-Go to DUT ntp webpage
-    Go to    ${DUT_NTP_WEBPAGE_URL}
-
-##############
-#    SNMP    #
-##############
-
-Go to DUT snmp webpage
-    Go to    ${DUT_SNMP_WEBPAGE_URL}
