@@ -173,3 +173,13 @@ Get DUT firmware version
     ...    timeout=${HTTP_REQUEST_TIMEOUT_SECONDS}
 
     RETURN    ${response.json()}[fw_version]
+
+Get DUT hostname
+    ${token}    Get API authorization token
+    ${headers}    Create dictionary    Authorization=Token ${token}
+    ${response}    GET
+    ...    ${DUT_MGMT_URL}/cgi-bin/api/v4/network
+    ...    headers=${headers}
+    ...    timeout=${HTTP_REQUEST_TIMEOUT_SECONDS}
+
+    RETURN    ${response.json()}[hostname]
