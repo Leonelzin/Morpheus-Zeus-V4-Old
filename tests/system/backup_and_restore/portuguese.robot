@@ -1,6 +1,7 @@
 *** Settings ***
 Library             OperatingSystem
 Library             Browser
+Resource            ../../../resources/fiber.resource
 Resource            ../../../resources/common.resource
 Resource            ../../../resources/pages/system/backup_and_restore.resource
 
