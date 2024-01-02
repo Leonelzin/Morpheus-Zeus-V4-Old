@@ -1,6 +1,7 @@
 *** Settings ***
 Library     Browser
 Library     String
+Library     ../../../.venv/lib/python3.11/site-packages/robot/libraries/XML.py
 Resource    ../../common.resource
 
 
@@ -17,9 +18,15 @@ ${BACKUP_PAGE_INNER_SUBTITLE}                                       xpath=//*[@i
 ${BACKUP_PAGE_BACKUP_SECTION_TITLE}                                 xpath=//*[@id="root"]/div[3]/div/div[2]/div[1]
 ${BACKUP_PAGE_BACKUP_SECTION_SUBTITLE}                              xpath=//*[@id="root"]/div[3]/div/div[2]/div[2]
 ${BACKUP_PAGE_BACKUP_CREATE_BUTTON}                                 xpath=//*[@id="root"]/div[3]/div/div[2]/button[1]
+${BACKUP_PAGE_BACKUP_MODAL}                                         xpath=//*[@id="overlay-cntse"]/div
+${BACKUP_PAGE_BACKUP_MODAL_TITLE}                                   xpath=//*[@id="overlay-cntse"]/div/div[1]/div
+${BACKUP_PAGE_BACKUP_MODAL_TEXT}                                    xpath=//*[@id="overlay-cntse"]/div/div[2]/div
+${BACKUP_PAGE_BACKUP_MODAL_CANCEL_BUTTON}                           xpath=//*[@id="overlay-cntse"]/div/div[3]/div/button[1]
+${BACKUP_PAGE_BACKUP_MODAL_DOWNLOAD_BUTTON}                         xpath=//*[@id="overlay-cntse"]/div/div[3]/div/button[2]
 
 ${BACKUP_PAGE_UPLOAD_BACKUP_SECTION_TITLE}                          xpath=//*[@id="root"]/div[3]/div/div[2]/div[3]
 ${BACKUP_PAGE_UPLOAD_BACKUP_SECTION_SUBTITLE}                       xpath=//*[@id="root"]/div[3]/div/div[2]/div[4]
+${BACKUP_PAGE_UPLOAD_BACKUP_INPUT_CLICKABLE}                        xpath=//*[@id="root"]/div[3]/div/div[2]/div[5]/div/div
 ${BACKUP_PAGE_UPLOAD_BACKUP_INPUT_PLACEHOLDER}                      xpath=//*[@id="root"]/div[3]/div/div[2]/div[5]/div/div/span
 ${BACKUP_PAGE_UPLOAD_BACKUP_BUTTON}                                 xpath=//*[@id="root"]/div[3]/div/div[2]/div[6]/button
 
@@ -106,3 +113,25 @@ Restore factory default settings section subtitle should be "${text}"
 
 Restore factory default settings button text should be "${text}"
     Get text    ${BACKUP_PAGE_RESTORE_FACTORY_DEFAULT_SETTINGS_BUTTON}    ==    ${text}
+
+Settings backup modal should be displayed
+    Wait for elements state
+    ...    ${BACKUP_PAGE_BACKUP_MODAL}
+    ...    visible
+    ...    3s
+    ...    Settings backup modal was not visible (5 seconds timeout).
+
+Settings backup modal title should be "${text}"
+    Get text    ${BACKUP_PAGE_BACKUP_MODAL_TITLE}    ==    ${text}
+
+Settings backup modal text should be "${text}"
+    Wait until keyword succeeds
+    ...    5x
+    ...    1s
+    ...    Get text    ${BACKUP_PAGE_BACKUP_MODAL_TEXT}    ==    ${text}
+
+Settings backup modal cancel button text should be "${text}"
+    Get text    ${BACKUP_PAGE_BACKUP_MODAL_CANCEL_BUTTON}    ==    ${text}
+
+Settings backup modal download button text should be "${text}"
+    Get text    ${BACKUP_PAGE_BACKUP_MODAL_DOWNLOAD_BUTTON}    ==    ${text}

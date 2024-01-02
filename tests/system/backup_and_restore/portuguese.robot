@@ -14,7 +14,7 @@ Test Teardown       Run keyword if test failed
 ...                     AND    Login to DUT    language=portuguese
 ...                     AND    Access system backup and restore settings page
 
-Force Tags          lang-pt    backup_and_restore    wip
+Force Tags          lang-pt    backup    restore
 
 
 *** Test Cases ***
@@ -39,10 +39,32 @@ Factory default settings are correct
     [Teardown]    No operation
 
 Upload backup file
+    [Tags]    smoke
     Create file    ${OUTPUT_DIR}/fake_backup_file.itb
-    ${promise}=    Promise to upload file    ${OUTPUT_DIR}/fake_backup_file.itb
-    Click    xpath=//*[@id="root"]/div[3]/div/div[2]/div[5]/div/div
-    ${upload_result}=    Wait for    ${promise}
+    ${promise}    Promise to upload file    ${OUTPUT_DIR}/fake_backup_file.itb
+    Click    ${BACKUP_PAGE_UPLOAD_BACKUP_INPUT_CLICKABLE}
+    ${upload_result}    Wait for    ${promise}
 
 Download backup file
-    No operation
+    [Tags]    robot:continue-on-failure    smoke
+    ${dut_firmware_version}    fiber.Get DUT firmware version
+    ${dut_model_name}    fiber.Get DUT model name
+    ${dut_model_name}    Replace string    ${dut_model_name}    ${SPACE}    ${EMPTY}
+
+    Click    ${BACKUP_PAGE_BACKUP_CREATE_BUTTON}
+    Settings backup modal should be displayed
+    Settings backup modal title should be "Configurações salvas"
+    Settings backup modal text should be "O arquivo de backup criado terá as configurações atuais desse equipamento com a seguinte versão de firmware: ${dut_firmware_version}"
+    Settings backup modal cancel button text should be "CANCELAR"
+    Settings backup modal download button text should be "BAIXAR"
+
+    ${dl_promise}    Promise to wait for download    ${OUTPUT_DIR}/downloads/dut_backup.itb
+    Click    ${BACKUP_PAGE_BACKUP_MODAL_DOWNLOAD_BUTTON}
+    ${file_obj}    Wait For    ${dl_promise}
+    File should exist    ${file_obj}[saveAs]
+
+    Should be equal as strings
+    ...    ${file_obj}[suggestedFilename]
+    ...    Intelbras_${dut_model_name}_config_${dut_firmware_version}.itb
+
+    [Teardown]    No operation
