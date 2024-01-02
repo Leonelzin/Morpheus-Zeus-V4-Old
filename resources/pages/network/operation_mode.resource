@@ -45,7 +45,7 @@ Access Operation Mode network settings page
         ...    ${SIDEMENU_NETWORK_SUBMENU}
         ...    visible
         ...    5s
-        ...    Services submenu was not visible (5 seconds timeout).
+        ...    Network submenu was not visible (5 seconds timeout).
     END
 
     ${ntp_option_is_visible}    Run keyword and return status
@@ -60,7 +60,7 @@ Access Operation Mode network settings page
         ...    ${SIDEMENU_NETWORK_OPERATION_MODE}
         ...    visible
         ...    5s
-        ...    SNMP service submenu option was not visible (5 seconds timeout).
+        ...    Operation Mode network submenu option was not visible (5 seconds timeout).
     END
 
     Click    ${SIDEMENU_NETWORK_OPERATION_MODE}
