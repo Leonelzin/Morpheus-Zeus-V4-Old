@@ -1,7 +1,6 @@
 *** Settings ***
 Library     Browser
 Library     String
-Library     ../../../.venv/lib/python3.11/site-packages/robot/libraries/XML.py
 Resource    ../../common.resource
 
 
