@@ -18,7 +18,7 @@ ${NETWORK_OPMODE_PAGE_INNER_SUBTITLE}                   xpath=//*[@id="root"]/di
 ${NETWORK_OPMODE_PAGE_EQUIPMENT_NAME_INPUT}             xpath=//*[@id="root"]/div[3]/div/div[2]/div/input
 
 ${NETWORK_OPMODE_PAGE_OPMODE_SELECT_TITLE}              xpath=//*[@id="root"]/div[3]/div/div[2]/div/div/div[1]
-${NETWORK_OPMODE_PAGE_OPMODE_SELECT_DROPDOWN}           xpath=//*[@id="root"]/div[3]/div/div[2]/div/div/div[1]/div/div/ul
+${NETWORK_OPMODE_PAGE_OPMODE_SELECT_DROPDOWN}           xpath=//*[@id="root"]/div[3]/div/div[2]/div/div/div[1]/div/div/ul 
 ${NETWORK_OPMODE_PAGE_OPMODE_SELECT}                    xpath=//*[@id="root"]/div[3]/div/div[2]/div/div/div[1]/div/div/div/input
 ${NETWORK_OPMODE_PAGE_OPMODE_SELECT_OPTION_BRIDGE}      xpath=//*[@id="root"]/div[3]/div/div[2]/div/div/div[1]/div/div/ul/li[1]/div
 ${NETWORK_OPMODE_PAGE_OPMODE_SELECT_OPTION_ROUTER}      xpath=//*[@id="root"]/div[3]/div/div[2]/div/div/div[1]/div/div/ul/li[2]/div
@@ -28,6 +28,7 @@ ${NETWORK_OPMODE_PAGE_ENABLE_NAT_TOGGLE_CLICKABLE}      xpath=//*[@id="root"]/di
 ${NETWORK_OPMODE_PAGE_ENABLE_NAT_TOGGLE_TEXT}           xpath=//*[@id="root"]/div[3]/div/div[2]/div/div[2]/div
 
 ${NETWORK_OPMODE_PAGE_SAVE_SETTINGS_BUTTON}             xpath=//*[@id="root"]/div[3]/div/div[2]/div/div/div[2]/button
+${NETWORK_OPMODE_PAGE_CONFIRM_SETTINGS_BUTTON}          xpath=//*[@id="overlay-cntse"]/div/div/div[3]/div/button[2]
 
 
 *** Keywords ***
@@ -165,6 +166,14 @@ Select network operation mode "${text}"
         END
     END
     Fail    Network operation mode ${text} is not available.
+
+Save network operation mode (bridge)
+    Click    ${NETWORK_OPMODE_PAGE_SAVE_SETTINGS_BUTTON}
+    Click    ${NETWORK_OPMODE_PAGE_CONFIRM_SETTINGS_BUTTON} 
+
+Save network operation mode (router)
+    Click    ${NETWORK_OPMODE_PAGE_SAVE_SETTINGS_BUTTON}
+    Click    ${NETWORK_OPMODE_PAGE_CONFIRM_SETTINGS_BUTTON} 
 
 There should be "${number}" network operation modes available
     Open network operation selection dropdown menu
