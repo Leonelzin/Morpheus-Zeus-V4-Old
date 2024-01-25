@@ -167,14 +167,6 @@ Select network operation mode "${text}"
     END
     Fail    Network operation mode ${text} is not available.
 
-Save network operation mode (bridge)
-    Click    ${NETWORK_OPMODE_PAGE_SAVE_SETTINGS_BUTTON}
-    Click    ${NETWORK_OPMODE_PAGE_CONFIRM_SETTINGS_BUTTON} 
-
-Save network operation mode (router)
-    Click    ${NETWORK_OPMODE_PAGE_SAVE_SETTINGS_BUTTON}
-    Click    ${NETWORK_OPMODE_PAGE_CONFIRM_SETTINGS_BUTTON} 
-
 There should be "${number}" network operation modes available
     Open network operation selection dropdown menu
 
