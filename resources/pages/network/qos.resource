@@ -9,7 +9,9 @@ ${SIDEMENU_TOGGLE}                                                            xp
 ${SIDEMENU_NETWORK_SUBMENU}                                                   xpath=//*[@id="sidebar-options-menu"]/div[2]/div
 ${SIDEMENU_NETWORK_QOS}                                                       xpath=//*[@id="sidebar-options-menu"]/div[2]/ul/div[7]/p
 
+
 ###
+
 
 ${NETWORK_QOS_PAGE_INNER_TITLE}                                               xpath=//*[@id="root"]/div[3]/div/div[1]/div[1]
 ${NETWORK_QOS_PAGE_INNER_SUBTITLE}                                            xpath=//*[@id="root"]/div[3]/div/div[1]/div[2]
@@ -90,6 +92,37 @@ ${NETWORK_QOS_PAGE_UPLOAD_INPUT_GUARANTEE_TABLE}                              xp
 ${NETWORK_QOS_PAGE_DOWNLOAD_INPUT_GUARANTEE_TABLE}                            xpath=//*[@id="root"]/div[3]/div/div[2]/div[4]/div[2]/div[2]/div[2]/div/div[5]/div/input
 
 
+################################
+#   Variables Table MAC-IP     #     
+################################
+
+
+${NETWORK_QOS_PAGE_BANDWIDTH_LIMIT_MAC_IP_TABLE}                              xpath=//*[@id="root"]/div[3]/div/div[2]/div[4]/div[2]/div/div[1]
+
+${NETWORK_QOS_PAGE_BANDWIDTH_LIMIT_MAC_IP_TABLE_TEXT}                         xpath=//*[@id="root"]/div[3]/div/div[2]/div[4]/div[2]/div/div[2]
+
+${NETWORK_QOS_PAGE_ADD_RULE_BUTTON}                                           xpath=//*[@id="root"]/div[3]/div/div[2]/div[4]/div[1]/span/button
+${NETWORK_QOS_PAGE_ADD_RULE_BUTTON_TEXT}                                      xpath=//*[@id="root"]/div[3]/div/div[2]/div[4]/div[1]
+
+${NETWORK_QOS_PAGE_DELETE_RULE_BUTTON}                                        xpath=//*[@id="root"]/div[3]/div/div[2]/div[4]/div[2]/div/div/div[2]/div/div[7]/div/button
+
+${NETWORK_QOS_PAGE_HEADER_ENABLED_LIMIT_MAC_IP_TABLE}                         xpath=//*[@id="root"]/div[3]/div/div[2]/div[4]/div[2]/div/div/div[1]/div[1]
+${NETWORK_QOS_PAGE_HEADER_DESCRIPTION_LIMIT_MAC_IP_TABLE}                     xpath=//*[@id="root"]/div[3]/div/div[2]/div[4]/div[2]/div/div/div[1]/div[2]
+${NETWORK_QOS_PAGE_HEADER_NETWORK_IP_LIMIT_MAC_IP_TABLE}                      xpath=//*[@id="root"]/div[3]/div/div[2]/div[4]/div[2]/div/div/div[1]/div[3]
+${NETWORK_QOS_PAGE_HEADER_MAC_LIMIT_MAC_IP_TABLE}                             xpath=//*[@id="root"]/div[3]/div/div[2]/div[4]/div[2]/div/div[1]/div[1]/div[4]
+${NETWORK_QOS_PAGE_HEADER_UPLOAD_LIMIT_MAC_IP_TABLE}                          xpath=//*[@id="root"]/div[3]/div/div[2]/div[4]/div[2]/div/div[1]/div[1]/div[5]
+${NETWORK_QOS_PAGE_HEADER_DOWNLOAD_LIMIT_MAC_IP_TABLE}                        xpath=//*[@id="root"]/div[3]/div/div[2]/div[4]/div[2]/div/div[1]/div[1]/div[6]
+
+${NETWORK_QOS_PAGE_ENABLED_TOGGLE_LIMIT_MAC_IP_TABLE}                         id=0
+${NETWORK_QOS_PAGE_ENABLED_TOGGLE_CLICKABLE_LIMIT_MAC_IP_TABLE}               xpath=//*[@id="root"]/div[3]/div/div[2]/div[4]/div[2]/div/div/div[2]/div/div[1]/label
+
+${NETWORK_QOS_PAGE_DESCRIPTION_INPUT_LIMIT_MAC_IP_TABLE}                      xpath=//*[@id="root"]/div[3]/div/div[2]/div[4]/div[2]/div/div/div[2]/div/div[2]/div/input
+${NETWORK_QOS_PAGE_NETWORK_IP_INPUT_LIMIT_MAC_IP_TABLE}                       xpath=//*[@id="root"]/div[3]/div/div[2]/div[4]/div[2]/div/div/div[2]/div/div[3]/div/input
+${NETWORK_QOS_PAGE_MAC_INPUT_LIMIT_MAC_IP_TABLE}                              xpath=//*[@id="root"]/div[3]/div/div[2]/div[4]/div[2]/div/div/div[2]/div/div[4]/div/input
+${NETWORK_QOS_PAGE_UPLOAD_INPUT_LIMIT_MAC_IP_TABLE}                           xpath=//*[@id="root"]/div[3]/div/div[2]/div[4]/div[2]/div/div/div[2]/div/div[5]/div/input
+${NETWORK_QOS_PAGE_DOWNLOAD_INPUT_LIMIT_MAC_IP_TABLE}                         xpath=//*[@id="root"]/div[3]/div/div[2]/div[4]/div[2]/div/div/div[2]/div/div[6]/div/input
+
+
 *** Keywords ***
 Access QoS network settings page
     ${submenu_is_visible}    Run keyword and return status
@@ -156,6 +189,13 @@ Enable QoS toggle
         Click    ${NETWORK_QOS_PAGE_ENABLED_TOGGLE_CLICKABLE}
     END
     Wait for elements state    ${NETWORK_QOS_PAGE_ENABLED_TOGGLE}    checked
+
+Disable QoS toggle
+    ${checked}    Get checkbox state    ${NETWORK_QOS_PAGE_ENABLED_TOGGLE}
+    IF    ${checked} == ${true}
+        Click    ${NETWORK_QOS_PAGE_ENABLED_TOGGLE_CLICKABLE}
+    END
+    Wait for elements state    ${NETWORK_QOS_PAGE_ENABLED_TOGGLE}    unchecked
 
 QoS type title should be "${text}"
     Get text    ${NETWORK_QOS_PAGE_TYPE_SELECT_TITLE}    ==    ${text}
@@ -275,7 +315,7 @@ Download input should be disabled
     ...    disabled
     ...    message=Download (Mbps) input should be disabled (not editable).
 
-Save settings button text should be "${text}"
+Save QoS settings button text should be "${text}"
     Get text    ${NETWORK_QOS_PAGE_SAVE_SETTINGS_BUTTON}    ==    ${text}
 
 
@@ -537,3 +577,197 @@ Download input should be disabled in guarantee table
     ...    contains
     ...    disabled
     ...    message=Download (%) input should be disabled (not editable).
+
+
+################################
+#    Keywords Table MAC-IP     #     
+################################
+
+
+Bandwidth Limit MAC-IP table should be visible
+    Get element states
+    ...    ${NETWORK_QOS_PAGE_BANDWIDTH_LIMIT_MAC_IP_TABLE}
+    ...    contains
+    ...    visible
+    
+Table text when no rules are registered should be "${text}"
+    Get text    ${NETWORK_QOS_PAGE_BANDWIDTH_LIMIT_MAC_IP_TABLE_TEXT}    ==    ${text}
+
+Add rules MAC-IP settings button text should be "${text}"
+    Get text    ${NETWORK_QOS_PAGE_ADD_RULE_BUTTON_TEXT}    ==    ${text}
+
+Add badwidth MAC-IP rule in table
+    Click    ${NETWORK_QOS_PAGE_ADD_RULE_BUTTON}
+
+Delete rules MAC-IP settings button should be visible
+    Get element states
+    ...    ${NETWORK_QOS_PAGE_DELETE_RULE_BUTTON}
+    ...    contains
+    ...    visible
+
+Delete bandwidth MAC-IP rule in table
+    Click    ${NETWORK_QOS_PAGE_DELETE_RULE_BUTTON}
+
+Enabled header should be visible in limit MAC-IP table
+    Get element states
+    ...    ${NETWORK_QOS_PAGE_HEADER_ENABLED_LIMIT_MAC_IP_TABLE}
+    ...    contains
+    ...    visible
+    
+Enabled header text should be "${text}" in limit MAC-IP table
+    Get text    ${NETWORK_QOS_PAGE_HEADER_ENABLED_LIMIT_MAC_IP_TABLE}    ==    ${text}
+
+QoS toggle in limit MAC-IP table should be visible
+    Get element states
+    ...    ${NETWORK_QOS_PAGE_ENABLED_TOGGLE_CLICKABLE_LIMIT_MAC_IP_TABLE}
+    ...    contains
+    ...    visible
+
+QoS toggle in limit MAC-IP table should be enabled
+    ${element_states}    Get element states    ${NETWORK_QOS_PAGE_ENABLED_TOGGLE_LIMIT_MAC_IP_TABLE}
+    Should Contain    ${element_states}    enabled    QoS toggle limit should be enabled (editable).
+
+QoS toggle in limit MAC-IP table should be disabled
+    Get checkbox state    ${NETWORK_QOS_PAGE_ENABLED_TOGGLE_LIMIT_MAC_IP_TABLE}    ==    unchecked
+    ...    QoS toggle should be disabled.
+    
+QoS toggle MAC-IP table limit is disabled should be but checked
+    Get checkbox state    ${NETWORK_QOS_PAGE_ENABLED_TOGGLE_LIMIT_MAC_IP_TABLE}    ==    checked
+    ...    QoS toggle should be checked, but disabled.
+
+Enable QoS toggle in limit MAC-IP table
+    ${checked}    Get checkbox state    ${NETWORK_QOS_PAGE_ENABLED_TOGGLE_LIMIT_MAC_IP_TABLE}
+    IF    ${checked} == ${false}
+        Click    ${NETWORK_QOS_PAGE_ENABLED_TOGGLE_CLICKABLE_LIMIT_MAC_IP_TABLE}
+    END
+    Wait for elements state    ${NETWORK_QOS_PAGE_ENABLED_TOGGLE_LIMIT_MAC_IP_TABLE}    checked
+
+Description header should be visible in limit MAC-IP table
+    Get element states
+    ...    ${NETWORK_QOS_PAGE_HEADER_DESCRIPTION_LIMIT_MAC_IP_TABLE}
+    ...    contains
+    ...    visible
+    
+Description header should be "${text}" in limit MAC-IP table
+    Get text    ${NETWORK_QOS_PAGE_HEADER_DESCRIPTION_LIMIT_MAC_IP_TABLE}    ==    ${text}
+
+Description input text should be "${text}" in limit MAC-IP table
+    Get text    ${NETWORK_QOS_PAGE_DESCRIPTION_INPUT_LIMIT_MAC_IP_TABLE}    ==    ${text}
+
+Description input should be enabled in limit MAC-IP table
+    Get element states
+    ...    ${NETWORK_QOS_PAGE_DESCRIPTION_INPUT_LIMIT_MAC_IP_TABLE}
+    ...    contains
+    ...    enabled
+    ...    message=Description input should be enabled (editable).
+
+Description input should be disabled in limit MAC-IP table
+    Get element states
+    ...    ${NETWORK_QOS_PAGE_DESCRIPTION_INPUT_LIMIT_MAC_IP_TABLE}
+    ...    contains
+    ...    disabled
+    ...    message=Description input should be disabled (not editable).
+
+Network IP header should be visible in limit MAC-IP table
+    Get element states
+    ...    ${NETWORK_QOS_PAGE_HEADER_NETWORK_IP_LIMIT_MAC_IP_TABLE}
+    ...    contains
+    ...    visible
+    
+Network IP header should be "${text}" in limit MAC-IP table
+    Get text    ${NETWORK_QOS_PAGE_HEADER_NETWORK_IP_LIMIT_MAC_IP_TABLE}    ==    ${text}
+
+Network IP input text should be "${text}" in limit MAC-IP table
+    Get text    ${NETWORK_QOS_PAGE_NETWORK_IP_INPUT_LIMIT_MAC_IP_TABLE}    ==    ${text}
+
+Network IP input should be enabled in limit MAC-IP table
+    Get element states
+    ...    ${NETWORK_QOS_PAGE_NETWORK_IP_INPUT_LIMIT_MAC_IP_TABLE}
+    ...    contains
+    ...    enabled
+    ...    message=Network IP input should be enabled (editable).
+
+Network IP input should be disabled in limit MAC-IP table
+    Get element states
+    ...    ${NETWORK_QOS_PAGE_NETWORK_IP_INPUT_LIMIT_MAC_IP_TABLE}
+    ...    contains
+    ...    disabled
+    ...    message=Network IP input should be disabled (not editable).
+
+MAC header should be visible in limit MAC-IP table
+    Get element states
+    ...    ${NETWORK_QOS_PAGE_HEADER_MAC_LIMIT_MAC_IP_TABLE}
+    ...    contains
+    ...    visible
+    
+MAC header should be "${text}" in limit MAC-IP table
+    Get text    ${NETWORK_QOS_PAGE_HEADER_MAC_LIMIT_MAC_IP_TABLE}    ==    ${text}
+
+MAC input text should be "${text}" in limit MAC-IP table
+    Get text    ${NETWORK_QOS_PAGE_MAC_INPUT_LIMIT_MAC_IP_TABLE}    ==    ${text}
+
+MAC input should be enabled in limit MAC-IP table
+    Get element states
+    ...    ${NETWORK_QOS_PAGE_MAC_INPUT_LIMIT_MAC_IP_TABLE}
+    ...    contains
+    ...    enabled
+    ...    message=MAC input should be enabled (editable).
+
+MAC input should be disabled in limit MAC-IP table
+    Get element states
+    ...    ${NETWORK_QOS_PAGE_MAC_INPUT_LIMIT_MAC_IP_TABLE}
+    ...    contains
+    ...    disabled
+    ...    message=MAC input should be disabled (not editable).
+
+Upload (Mbps) header should be visible in limit MAC-IP table
+    Get element states
+    ...    ${NETWORK_QOS_PAGE_HEADER_UPLOAD_LIMIT_MAC_IP_TABLE}
+    ...    contains
+    ...    visible
+    
+Upload (Mbps) header should be "${text}" in limit MAC-IP table
+    Get text    ${NETWORK_QOS_PAGE_HEADER_UPLOAD_LIMIT_MAC_IP_TABLE}    ==    ${text}
+
+Upload (Mbps) input text should be "${text}" in limit MAC-IP table
+    Get text    ${NETWORK_QOS_PAGE_UPLOAD_INPUT_LIMIT_MAC_IP_TABLE}    ==    ${text}
+
+Upload (Mbps) input should be enabled in limit MAC-IP table
+    Get element states
+    ...    ${NETWORK_QOS_PAGE_UPLOAD_INPUT_LIMIT_MAC_IP_TABLE}
+    ...    contains
+    ...    enabled
+    ...    message=Upload (Mbps) input should be enabled (editable).
+
+Upload (Mbps) input should be disabled in limit MAC-IP table
+    Get element states
+    ...    ${NETWORK_QOS_PAGE_UPLOAD_INPUT_LIMIT_MAC_IP_TABLE}
+    ...    contains
+    ...    disabled
+    ...    message=Upload (Mbps) input should be disabled (not editable).
+
+Download (Mbps) header should be visible in limit MAC-IP table
+    Get element states
+    ...    ${NETWORK_QOS_PAGE_HEADER_UPLOAD_LIMIT_MAC_IP_TABLE}
+    ...    contains
+    ...    visible
+    
+Download (Mbps) header should be "${text}" in limit MAC-IP table
+    Get text    ${NETWORK_QOS_PAGE_HEADER_DOWNLOAD_LIMIT_MAC_IP_TABLE}    ==    ${text}
+
+Download (Mbps) input text should be "${text}" in limit MAC-IP table
+    Get text    ${NETWORK_QOS_PAGE_DOWNLOAD_INPUT_LIMIT_MAC_IP_TABLE}    ==    ${text}
+
+Download (Mbps) input should be enabled in limit MAC-IP table
+    Get element states
+    ...    ${NETWORK_QOS_PAGE_DOWNLOAD_INPUT_LIMIT_MAC_IP_TABLE}
+    ...    contains
+    ...    enabled
+    ...    message=Download (Mbps) input should be enabled (editable).
+
+Download (Mbps) input should be disabled in limit MAC-IP table
+    Get element states
+    ...    ${NETWORK_QOS_PAGE_DOWNLOAD_INPUT_LIMIT_MAC_IP_TABLE}
+    ...    contains
+    ...    disabled
+    ...    message=Download (Mbps) input should be disabled (not editable).
