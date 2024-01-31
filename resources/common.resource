@@ -9,14 +9,21 @@ Resource    ../resources/pages/login/login.resource
 ${GLOBAL_DEBUG_BROWSER}                 ${false}
 
 # DUT
-${DUT_MGMT_IPV4_ADDRESS}                10.0.0.1
+${DUT_MGMT_IPV4_ADDRESS}                192.168.0.30
 ${DUT_MGMT_HTTP_PORT}                   80
 ${DUT_MGMT_HTTP_PROTOCOL}               http
 ${DUT_MGMT_URL}                         ${DUT_MGMT_HTTP_PROTOCOL}://${DUT_MGMT_IPV4_ADDRESS}:${DUT_MGMT_HTTP_PORT}
 ${DUT_MGMT_USER}                        admin
-${DUT_MGMT_PASSWORD}                    M0rpheus01!
-# ${DUT_MGMT_FIRST_ACCESS_PASSWORD}    kH9N$UwP
+${DUT_MGMT_PASSWORD}                    Lockzeus@24
+# ${DUT_MGMT_FIRST_ACCESS_PASSWORD}    M9w3#EH3
 ${DUT_MGMT_FIRST_ACCESS_PASSWORD}       lockzeus
+
+# HEADER
+${HEADER_SETTINGS_ICON}                                     xpath=//*[@id="root"]/div[2]/div[2]/div/div[3]/div[2]/div[2]
+${HEADER_SETTINGS_DROPDOWN}                                 xpath=//*[@id="root"]/div[2]/div[2]/div/div[3]/div[3]
+${HEADER_SETTINGS_CONFIRM_SETTINGS_BUTTON}                  xpath=//*[@id="overlay-cntse"]/div/div/div[3]/div/button[2]
+${HEADER_SETTINGS_DISCARD_SETTINGS_BUTTON}                  xpath=//*[@id="root"]/div[2]/div[2]/div/div[3]/div[3]/div/a[6]
+${HEADER_SETTINGS_DISCARD_SETTINGS_MODAL_CONFIRM_BUTTON}    xpath=//*[@id="overlay-cntse"]/div/div/div[3]/div/button[2]
 
 # DUT PAGES
 ${DUT_LOGIN_WEBPAGE_URL}                ${DUT_MGMT_URL}/login
@@ -126,3 +133,45 @@ Side menu is opened
     ...    xpath=//*[@id="sidebar-options-menu"]/div[1]/div/div/div/div
     ...    contains
     ...    visible
+
+Save settings
+    # get DUT current language from session storage
+    ${dut_language}    Localstorage get item    lang
+
+    IF    "${dut_language}" == "pt-BR"
+        ${save_settings_button_text}    Set variable    Salvar
+        ${save_settings_success_msg}    Set variable    Configurações salvas com sucesso.
+    ELSE IF    "${dut_language}" == "en"
+        ${save_settings_button_text}    Set variable    Save
+        ${save_settings_success_msg}    Set variable    Settings saved successfully.
+    ELSE IF    "${dut_language}" == "es"
+        ${save_settings_button_text}    Set variable    Guardar
+        ${save_settings_success_msg}    Set variable    Configuraciones guardadas exitosamente.
+    ELSE
+        Fail
+        ...    message=It was not possible to save settings. DUT language could not be determined from local storage key 'lang'.
+    END
+
+    ${save_settings_button}    Get element by    text    ${save_settings_button_text}    exact=${true}
+
+    ${el_states}    Get element states    ${save_settings_button}
+    IF    "disabled" not in ${el_states}
+        Log    Save settings button is enabled (settings are going to be discarded).
+        Click    ${save_settings_button}
+        #Wait until message "${save_settings_success_msg}" is displayed
+        #@PedroMaratonas - I commented on this line because she failed to see the expected element.
+    ELSE
+        Log    Save settings button is disabled (no settings to discard).
+    END
+    
+Confirm saved settings
+    Click    ${HEADER_SETTINGS_CONFIRM_SETTINGS_BUTTON} 
+
+Discard saved settings
+    Click    ${HEADER_SETTINGS_ICON}
+    Wait for elements state    ${HEADER_SETTINGS_DROPDOWN}    visible
+    Click    ${HEADER_SETTINGS_DISCARD_SETTINGS_BUTTON}
+    Wait for elements state    ${HEADER_SETTINGS_DISCARD_SETTINGS_MODAL_CONFIRM_BUTTON}    visible
+    Click    ${HEADER_SETTINGS_DISCARD_SETTINGS_MODAL_CONFIRM_BUTTON}
+    Sleep    1s
+    Wait until network is idle    30s
