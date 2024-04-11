@@ -17,12 +17,12 @@ Test Teardown       Run keyword if test failed
 ...                     AND    Login to DUT    language=portuguese
 ...                     AND    Access Wireless SSID settings page
 
-Force Tags          lang-pt    wireless-ssid    psk-psk2
+Force Tags          lang-pt    wireless-ssid    wpa-wpa2
 
 
 *** Test Cases ***
-Factory Default settings for personal authentication psk-psk2 are correct
-    [Documentation]    Validation when editing default SSID in wpa-psk and wpa2-psk personal authentication
+Factory Default settings for enterprise authentication wpa-wpa2 are correct
+    [Documentation]    Validation when editing default SSID in wpa and wpa2 enterprise authentication
     Edit default SSID in table
 
     Page inner subtitle add new network should be "Salvar"
@@ -37,32 +37,45 @@ Factory Default settings for personal authentication psk-psk2 are correct
     Authentication SSID select should be enabled
 
     Open Authentication SSID selection dropdown menu
-    Select Authentication SSID "WPA-PSK"
-    Select Authentication SSID "WPA2-PSK"
+    Select Authentication SSID "WPA"
+    Select Authentication SSID "WPA2"
 
-    Click password revealer
-    Password revealer should be visible
+    Cryptography WPA-WPA2 title should be "Criptografia"
+    Cryptography WPA-WPA2 select should be enabled
 
-    Value of the password in the input should be
-    ...    [a-zA-Z0-9_]+
-    Password input should be enabled
-
-    Cryptography PSK-PSK2 title should be "Criptografia"
+    Open Cryptography WPA-WPA2 selection dropdown menu
+    Select Cryptography WPA-WPA2 "AES"
     
-    Cryptography PSK-PSK2 select should be enabled
+    Server Authentication Radius title should be "Autenticação do Servidor RADIUS"
+    Radius server registration button should be "Cadastrar"
+    ${server_header_default}=    Set Variable    SERVIDOR
+    ${server_address_header_default}=    Set Variable    Endereço Do Servidor 
+    ${authentication_port_header_default}=    Set Variable    PORTA AUTENTICAÇÃO 
+    Radius server table headers should be    ${server_header_default}    ${server_address_header_default}    ${authentication_port_header_default}    
 
-    Open Cryptography PSK-PSK2 selection dropdown menu
-    Select Cryptography PSK-PSK2 "AES"
+    Open Server selection dropdown menu
+
+    Server select should be enabled
+    Select Server "Servidor Exemplo"
+
+    Server address text should be "10.0.0.1"
+    Port authentication text should be "1813"
 
     Frequency toggle text should be "Dual band"
     Frequency toggle should be enabled
     [Teardown]    No operation
 
+One server are available: Example Server
+    [Tags]    smoke
+    There should be "1" server methods available
+    Server "Servidor Exemplo" should be available
+    [Teardown]    No operation
+
 Two encryption methods are available: Select and AES
     [Tags]    smoke
-    There should be "2" encryption PSK-PSK2 methods available
-    Cryptography PSK-PSK2 "Selecione" should be available
-    Cryptography PSK-PSK2 "AES" should be available
+    There should be "2" encryption WPA-WPA2 methods available
+    Cryptography WPA-WPA2 "Selecione" should be available
+    Cryptography WPA-WPA2 "AES" should be available
     [Teardown]    No operation
 
 Five Wireless SSID Authentication are available: Open System, WPA-PSK, WPA2-PSK, WPA & WPA2
