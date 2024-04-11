@@ -23,6 +23,7 @@ Force Tags          lang-pt    wireless-ssid    open-system
 *** Test Cases ***
 Factory Default settings for wireless SSID are correct (open-system)
     [Tags]    robot:continue-on-failure    smoke
+    [Documentation]    Validation when creating an SSID to check the authentication type open system and the rest of the elements on the wireless-ssid screen
     Page inner title Wireless SSID should be "Wireless SSID"
     Page inner subtitle Wireless SSID should be "Adicione, edite ou exclua as redes selecionadas"
     
@@ -148,7 +149,7 @@ Validation of ACL rules when allowing and blocked listed
     Select ACL "Permitir Listados"
     
     Add ACL rule in table
-    Add settings ACL rules button text should be "Modo de controle de acesso\nAdicionar"
+    Add settings ACL rules button text should be "Adicionar"
     Add settings ACL rules button should be visible in table
 
     Wireless SSID ACL table should be visible

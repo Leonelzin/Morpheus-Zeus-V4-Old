@@ -108,7 +108,7 @@ ${WIRELESS_SSID_PAGE_ACL_SELECT_OPTION_DISABLED}                              xp
 ${WIRELESS_SSID_PAGE_ACL_SELECT_OPTION_ALLOW_LISTINGS}                        xpath=//*[@id="root"]/div[3]/div/div[2]/div[8]/div/div/ul/li[2]
 ${WIRELESS_SSID_PAGE_ACL_SELECT_OPTION_LISTED_BLOCKS}                         xpath=//*[@id="root"]/div[3]/div/div[2]/div[8]/div/div/ul/li[3]
 
-${WIRELESS_SSID_PAGE_ADD_ACL_RULE_BUTTON_TEXT}                                xpath=//*[@id="root"]/div[3]/div/div[2]/div[8]
+${WIRELESS_SSID_PAGE_ADD_ACL_RULE_BUTTON_TEXT}                                xpath=//*[@id="root"]/div[3]/div/div[2]/div[8]/span/span
 ${WIRELESS_SSID_PAGE_ADD_ACL_RULE_BUTTON}                                     xpath=//*[@id="root"]/div[3]/div/div[2]/div[8]/span/button
 
 ${WIRELESS_SSID_PAGE_DELETE_ACL_RULE_BUTTON}                                  xpath=//*[@id="root"]/div[3]/div/div[2]/div[9]/div/div[1]/div[2]/div/div[3]

@@ -22,6 +22,7 @@ Force Tags          lang-pt    wireless-ssid    psk-psk2
 
 *** Test Cases ***
 Factory Default settings for personal authentication psk-psk2 are correct
+    [Tags]    robot:continue-on-failure    smoke
     [Documentation]    Validation when editing default SSID in wpa-psk and wpa2-psk personal authentication
     Edit default SSID in table
 

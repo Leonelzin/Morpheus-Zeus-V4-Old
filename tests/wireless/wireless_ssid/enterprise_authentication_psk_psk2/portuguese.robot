@@ -22,6 +22,7 @@ Force Tags          lang-pt    wireless-ssid    wpa-wpa2
 
 *** Test Cases ***
 Factory Default settings for enterprise authentication wpa-wpa2 are correct
+    [Tags]    robot:continue-on-failure    smoke
     [Documentation]    Validation when editing default SSID in wpa and wpa2 enterprise authentication
     Edit default SSID in table
 
