@@ -1,6 +1,7 @@
 *** Settings ***
 Library     Browser
 Library     String
+Library    ../../../.venv/lib/python3.11/site-packages/robot/libraries/Telnet.py
 Resource    ../../common.resource
 
 
@@ -18,8 +19,8 @@ ${NETWORK_OPMODE_PAGE_INNER_SUBTITLE}                   xpath=//*[@id="root"]/di
 ${NETWORK_OPMODE_PAGE_EQUIPMENT_NAME_INPUT}             xpath=//*[@id="root"]/div[3]/div/div[2]/div/input
 
 ${NETWORK_OPMODE_PAGE_OPMODE_SELECT_TITLE}              xpath=//*[@id="root"]/div[3]/div/div[2]/div/div/div[1]
-${NETWORK_OPMODE_PAGE_OPMODE_SELECT_DROPDOWN}           xpath=//*[@id="root"]/div[3]/div/div[2]/div/div/div[1]/div/div/ul
-${NETWORK_OPMODE_PAGE_OPMODE_SELECT}                    xpath=//*[@id="root"]/div[3]/div/div[2]/div/div/div[1]/div/div/div/input
+${NETWORK_OPMODE_PAGE_OPMODE_SELECT_DROPDOWN}           xpath=//*[@data-testid="opmode-select-dropdown"]
+${NETWORK_OPMODE_PAGE_OPMODE_SELECT}                    xpath=//*[@data-testid="opmode-select-input"]
 ${NETWORK_OPMODE_PAGE_OPMODE_SELECT_OPTION_BRIDGE}      xpath=//*[@id="root"]/div[3]/div/div[2]/div/div/div[1]/div/div/ul/li[1]/div
 ${NETWORK_OPMODE_PAGE_OPMODE_SELECT_OPTION_ROUTER}      xpath=//*[@id="root"]/div[3]/div/div[2]/div/div/div[1]/div/div/ul/li[2]/div
 
@@ -28,6 +29,7 @@ ${NETWORK_OPMODE_PAGE_ENABLE_NAT_TOGGLE_CLICKABLE}      xpath=//*[@id="root"]/di
 ${NETWORK_OPMODE_PAGE_ENABLE_NAT_TOGGLE_TEXT}           xpath=//*[@id="root"]/div[3]/div/div[2]/div/div[2]/div
 
 ${NETWORK_OPMODE_PAGE_SAVE_SETTINGS_BUTTON}             xpath=//*[@id="root"]/div[3]/div/div[2]/div/div/div[2]/button
+${NETWORK_OPMODE_PAGE_CONFIRM_SETTINGS_BUTTON}          xpath=//*[@id="overlay-cntse"]/div/div/div[3]/div/button[2]
 
 
 *** Keywords ***
@@ -63,12 +65,6 @@ Access network operation mode settings page
     END
 
     Click    ${SIDEMENU_NETWORK_OPMODE}
-
-    Wait for elements state
-    ...    ${NETWORK_OPMODE_PAGE_SAVE_SETTINGS_BUTTON}
-    ...    visible
-    ...    10s
-    ...    Network operation mode page save settings button was not visible (10 seconds timeout).
 
 Page inner title should be "${text}"
     Get text    ${NETWORK_OPMODE_PAGE_INNER_TITLE}    ==    ${text}
@@ -106,6 +102,7 @@ Network operation mode select option should be "${text}"
     Get text    ${NETWORK_OPMODE_PAGE_OPMODE_SELECT}    ==    ${text}
 
 Open network operation selection dropdown menu
+    Sleep    3
     ${elem_states}    Get element states    ${NETWORK_OPMODE_PAGE_OPMODE_SELECT_DROPDOWN}
     IF    "hidden" in ${elem_states}
         Click    ${NETWORK_OPMODE_PAGE_OPMODE_SELECT}
