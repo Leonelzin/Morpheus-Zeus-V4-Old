@@ -172,7 +172,31 @@ Get DUT firmware version
     ...    headers=${headers}
     ...    timeout=${HTTP_REQUEST_TIMEOUT_SECONDS}
 
-    RETURN    ${response.json()}[fw_version]
+    ${response_json}    Set Variable    ${response.json()}
+
+    Log To Console    Full Response: ${response_json}
+
+    ${fw_version}    Get From Dictionary    ${response_json}    fw_version
+
+    Log To Console    Firmware Version: ${fw_version}
+    [Return]    ${fw_version}
+
+Get CRONOS latest firmware version
+    ${token}    Get API authorization token
+    ${headers}    Create dictionary    Authorization=Token ${token}
+    ${response}    GET
+    ...    ${DUT_MGMT_URL}/cgi-bin/api/v4/services/firmware/versions/latest?pt-br
+    ...    headers=${headers}
+    ...    timeout=${HTTP_REQUEST_TIMEOUT_SECONDS}
+
+    ${response_json}    Set Variable    ${response.json()}
+
+    Log To Console    Full Response: ${response_json}
+
+    ${version}    Get From Dictionary    ${response_json}    version
+
+    Log To Console    Changelog: ${version}
+    [Return]    ${version}
 
 Get DUT hostname
     ${token}    Get API authorization token
