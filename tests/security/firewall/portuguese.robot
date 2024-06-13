@@ -21,7 +21,7 @@ Force Tags          lang-pt    firewall
 
 
 *** Test Cases ***
-Factory Default settings for firewall are correct
+Factory Default settings for firewall are correct (bridge)
     [Tags]    robot:continue-on-failure    smoke
     Firewall page inner title should be "Firewall"
     Firewall page inner subtitle should be "Restrição de acesso nas operações de transmissão ou recepção de dados\n"
@@ -61,12 +61,12 @@ DUT configuration for router mode
     Select network operation mode "Roteador"
     Save settings
 
-Factory Default settings for firewall router mode are correct
+Factory Default settings for firewall are correct (router)
     [Tags]    robot:continue-on-failure    smoke
     Access security firewall settings page
 
     Enable WAN ping checkbox text should be "Habilitar ping na WAN"
-    Enable WAN ping checkbox should be enabled
+    Enable WAN ping checkbox should be disabled
 
     Enable UPnP checkbox text should be "Habilitar UPnP"
     Enable UPnP checkbox should be enabled

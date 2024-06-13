@@ -102,7 +102,7 @@ Enable Firewall toggle should be enabled
 Enable WAN ping checkbox text should be "${text}"
     Get text    ${SECURITY_FIREWALL_PAGE_ENABLE_WAN_CHECKBOX_TEXT}    ==    ${text}
 
-Enable WAN ping checkbox should be enabled
+Enable WAN ping checkbox should be disabled
     ${element_states}    Get element states    ${SECURITY_FIREWALL_PAGE_ENABLE_WAN_CHECKBOX}
     Should Contain    ${element_states}    unchecked   Enable WAN ping checkbox should be enabled (editable).
 
